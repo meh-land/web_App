@@ -1,17 +1,17 @@
 import { useContext, useEffect } from "react";
-import Context from "../../Context";
 import Loader from "../../Loader/Loader";
 import Path from "../Path/Path";
+import Context from "../../Context";
+import "./Profile.css";
 
-export default function Home() {
+export default function Profile() {
   const { isLoading, setIsLoading } = useContext(Context);
 
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      console.log("loading");
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (
@@ -20,7 +20,7 @@ export default function Home() {
         <Loader />
       ) : (
         <>
-          <Path title="Home" />
+          <Path title="Profile" />
         </>
       )}
     </>

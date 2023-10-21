@@ -5,8 +5,17 @@ import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
+  const {
+    logged_in,
+    setLoggedIn,
+    userData,
+    setUserData,
+    isLoading,
+    setIsLoading,
+  } = useContext(Context);
+
   const navigate = useNavigate();
+
   const {
     register,
     formState: { errors },
@@ -26,20 +35,25 @@ export default function Login() {
     });
   };
 
-  const login = async () => {
-    try {
-      const res = await axios.post(`http://localhost/apicrud/getuser.php`, {
+  const login = () => {
+    setIsLoading(true);
+
+    axios
+      .post(`http://localhost/apicrud/getuser.php`, {
         email: userInfo.email,
         password: userInfo.password,
+      })
+      .then((res) => {
+        setLoggedIn(res.data.status);
+        const user = res.data.user;
+        setUserData(user);
+        navigate(`/`);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
       });
-
-      setLoggedIn(res.data.status);
-      const user = res.data.user;
-      setUserData(user);
-      navigate(`/`);
-    } catch (error) {
-      console.error("Error:", error);
-    }
   };
 
   return (

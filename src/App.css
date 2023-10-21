@@ -1,8 +1,19 @@
+:root {
+  --mc1: #f1f1e6;
+  --mc2: #c4cdff;
+  --hc: #ddd;
+  --bc: #9ba0b8;
+  --hff: "Heebo", sans-serif;
+  --bff: "Nunito", sans-serif;
+  --bg: #419771;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  /* color: #fff; */
+  color: #fff;
   margin: 0 !important;
+  background: var(--bg);
 }
 
 .app {
@@ -17,6 +28,12 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
 }
 
 .form-block-wrapper {
