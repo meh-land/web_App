@@ -3,6 +3,7 @@ import Context from "../../Context";
 import Loader from "../../Loader/Loader";
 import Path from "../Path/Path";
 import Navbar from "../Navbar/Navbar";
+import Test from "../TestingInterface/Test";
 
 export default function Home() {
   const { isLoading, setIsLoading } = useContext(Context);
@@ -23,6 +24,7 @@ export default function Home() {
         <>
           <Navbar />
           <Path title="Home" />
+          <Test />
         </>
       )}
     </>

@@ -18,7 +18,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header id="header">
+      <header id="header" className="d-flex bd-highlight mb-3">
         <div className="header">
           <div className="header_in">
             <div className="trigger_logo">
