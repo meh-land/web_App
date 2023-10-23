@@ -5,7 +5,6 @@ import Membership from "./Components/Membership/Membership";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Context from "./Context";
 import { useState } from "react";
-import Navbar from "./Components/Navbar/Navbar";
 import Profile from "./Components/Profile/Profile";
 
 function App() {
@@ -35,7 +34,6 @@ function App() {
       }}
     >
       <BrowserRouter>
-        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
