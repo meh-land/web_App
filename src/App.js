@@ -11,7 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [logged_in, setLoggedIn] = useState(false);
   const [walletConnected, IsConnected] = useState(false);
-  const [leftSidebar, IsOpen] = useState(false);
+  const [sidebar, IsOpen] = useState(false);
   const [userData, setUserData] = useState({
     user_id: "",
     name: "",
@@ -27,7 +27,7 @@ function App() {
         setUserData,
         walletConnected,
         IsConnected,
-        leftSidebar,
+        sidebar,
         IsOpen,
         isLoading,
         setIsLoading,

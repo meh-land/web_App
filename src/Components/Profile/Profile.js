@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import Loader from "../../Loader/Loader";
+import Loader from "../Loader/Loader";
 import Path from "../Path/Path";
 import Context from "../../Context";
 import "./Profile.css";

@@ -1,17 +1,18 @@
 :root {
   --mc1: #f1f1e6;
   --mc2: #c4cdff;
-  --hc: #ddd;
+  --bg: #ddd;
   --bc: #9ba0b8;
   --hff: "Heebo", sans-serif;
   --bff: "Nunito", sans-serif;
-  --bg: #419771;
+  --hc: #419771;
+  --bs-teal: #2d6250;
 }
 
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  color: #fff;
+  color: var(--bs-teal);
   margin: 0 !important;
   background: var(--bg);
 }
@@ -23,7 +24,7 @@ body {
   right: 0;
   height: 100%;
   overflow-y: hidden;
-  background-image: url("./images/Robot.jpg");
+  background-image: url("./images/bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -298,4 +299,8 @@ input[type="checkbox"]:checked + label:after {
   font-size: 0.8rem;
   margin-top: 0.2rem;
   border-radius: 1px;
+}
+
+main {
+  flex-grow: 2;
 }

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Context from "../Context";
+import Context from "../../Context";
 import "./Loader.css";
 
 export default function Loader() {

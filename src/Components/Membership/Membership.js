@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import Context from "../../Context";
 import { useState } from "react";
 import Login_Signup from "../Login_Signup/Login_Signup";
-import Loader from "../../Loader/Loader";
+import Loader from "../Loader/Loader";
 
 export default function Membership() {
   const [action, setAction] = useState("login");
