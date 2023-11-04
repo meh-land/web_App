@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Context from "./Context";
 import { useState } from "react";
 import Profile from "./Components/Profile/Profile";
+import MobSidebar from "./Components/mobSidebar/mobSidebar";
+import Sidebar from "./Components/Sidebar/Sidebar";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +18,7 @@ function App() {
     user_id: "",
     name: "",
     email: "",
+    password: "",
   });
 
   return (
@@ -35,8 +38,46 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Home />
+              </>
+            }
+          />
+          <Route
+            path="/Profile"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="EditProfile" />
+              </>
+            }
+          />
+          <Route
+            path="/Profile/ChangePassword"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="ChangePassword" />
+              </>
+            }
+          />
+          <Route
+            path="/Profile/DeleteAccount"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="DeleteAccount" />
+              </>
+            }
+          />
           <Route path="/Membership" element={<Membership />} />
         </Routes>
       </BrowserRouter>

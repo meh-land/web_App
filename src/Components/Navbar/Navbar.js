@@ -7,7 +7,7 @@ import CircleBtn from "../Circlebtn/Circlebtn";
 
 export default function Navbar() {
   const [effect, seteffect] = useState(false);
-  const { logged_in, setLoggedIn, userData, setUserData, sidebar, IsOpen } =
+  const { logged_in, setLoggedIn, userData, sidebar, IsOpen } =
     useContext(Context);
 
   const OpenSidebar = () => {
