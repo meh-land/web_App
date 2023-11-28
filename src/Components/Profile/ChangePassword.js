@@ -20,7 +20,7 @@ export default function ChangePassword() {
       setIsLoading(true);
 
       const response = await axios.post(
-        "http://192.168.8.104/apicrud/changePassword.php",
+        "http://127.0.0.1/apicrud/changePassword.php",
         {
           password: newPassword,
           user_id: userData.user_id,

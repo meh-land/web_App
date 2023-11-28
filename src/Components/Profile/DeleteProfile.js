@@ -19,7 +19,7 @@ export default function DeleteProfile() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://192.168.8.104/apicrud/deleteusers.php",
+        "http://127.0.0.1/apicrud/deleteusers.php",
         {
           user_id: userData.user_id,
         }

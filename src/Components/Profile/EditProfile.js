@@ -13,11 +13,12 @@ export default function EditProfile() {
     handleSubmit,
     reset,
   } = useForm();
+
   const handleEditPress = async (formData) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://192.168.8.104/apicrud/editusers.php",
+        "http://127.0.0.1/apicrud/editusers.php",
         {
           fullname: userData.name,
           email: userData.email,
