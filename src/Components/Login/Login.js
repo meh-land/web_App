@@ -39,7 +39,7 @@ export default function Login() {
     setIsLoading(true);
 
     axios
-      .post(`http://localhost/apicrud/getuser.php`, {
+      .post(`http://127.0.0.1/apicrud/getuser.php`, {
         email: userInfo.email,
         password: userInfo.password,
       })

@@ -30,7 +30,7 @@ export default function Signup() {
   const signup = async () => {
     try {
       axios
-        .post(`http://localhost/apicrud/addusers.php`, {
+        .post(`http://127.0.0.1/apicrud/addusers.php`, {
           fullname: userInfo.fullname,
           email: userInfo.email,
           password: userInfo.password,

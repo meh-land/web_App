@@ -12,7 +12,7 @@ export default function Test() {
 
   const test = () => {
     axios
-      .post(`http://localhost/apicrud/test.php`, {
+      .post(`http://127.0.0.1/apicrud/test.php`, {
         status: status,
       })
       .then((res) => {
