@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import "./Profile.css";
 import Context from "../../Context";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 interface FormData {
   fullName: string;
@@ -31,8 +32,13 @@ const EditProfile: FC = () => {
       );
 
       if (response.data.status === true) {
-        console.log("Edited Successfully");
         setIsLoading(false);
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         setErrorText(response.data.msg);
         console.log(response.data.status);

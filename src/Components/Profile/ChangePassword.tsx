@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import "./Profile.css";
 import Context from "../../Context";
+import Swal from "sweetalert2";
 
 interface ChangePasswordProps {
   currentPassword: string;
@@ -34,7 +35,12 @@ const ChangePassword: FC = () => {
       );
       console.log(newPassword);
       if (response.data.status == true) {
-        console.log("edited Sucessfully");
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setIsLoading(false);
         setUserData({ ...userData, password: newPassword });
       } else {
@@ -95,7 +101,7 @@ const ChangePassword: FC = () => {
             required: true,
             validate: (value) =>
               value ===
-              (document.getElementById("createpassword") as HTMLInputElement)
+              (document.getElementById("NewPassword") as HTMLInputElement)
                 .value,
           })}
         />

@@ -10,8 +10,6 @@ interface FormData {
 }
 
 const DeleteProfile: FC = () => {
-  const Swal = require("sweetalert2");
-
   const showSwal = () => {
     Swal.fire({
       title: "Are you sure?",
