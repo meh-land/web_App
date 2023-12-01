@@ -1,13 +1,16 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useLayoutEffect, useRef } from "react";
 import Context from "../../Context";
 import { useState } from "react";
 import Login_Signup from "../Login_Signup/Login_Signup";
 import Loader from "../Loader/Loader";
+import { gsap } from "gsap";
 
 const Membership: FC = () => {
   const [action, setAction] = useState<string>("login");
 
   const { isLoading, setIsLoading } = useContext(Context);
+
+  const boxRef = useRef(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -15,6 +18,18 @@ const Membership: FC = () => {
       setIsLoading(false);
       console.log("loading");
     }, 3000);
+  }, []);
+
+  useLayoutEffect(() => {
+    console.log(boxRef.current);
+    setTimeout(() => {
+      gsap.from(boxRef.current, {
+        autoAlpha: 0,
+        duration: 1.5,
+        scale: 0,
+        ease: "bounce.out",
+      });
+    }, 3010);
   }, []);
 
   const toggleAction = () => {
@@ -31,7 +46,10 @@ const Membership: FC = () => {
           <div
             className={`form-block-wrapper form-block-wrapper--is-${action}`}
           ></div>
-          <section className={`form-block form-block--is-${action}`}>
+          <section
+            ref={boxRef}
+            className={`form-block form-block--is-${action}`}
+          >
             <header className="form-block__header">
               <h1>{action === "login" ? "Welcome back!" : "Sign up"}</h1>
               <div className="form-block__toggle-block">

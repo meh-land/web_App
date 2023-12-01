@@ -72,7 +72,7 @@ const Login: FC = () => {
         placeholder="Email"
         {...register("email", { required: true, onChange: onChangeValue })}
       />
-      {errors.email && <p className="error-msg">This field is required</p>}
+      {errors.email && <p className="error-msg ">This field is required</p>}
 
       <input
         className="form-group__input"
