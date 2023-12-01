@@ -74,7 +74,7 @@ const Signup: FC = () => {
         })}
       />
       {errors.fullname && (
-        <p className="error-msg">
+        <p className="error-msg ">
           {errors.fullname.type === "pattern"
             ? "No numbers or special characters allowed"
             : "This field is required"}
@@ -123,7 +123,7 @@ const Signup: FC = () => {
         })}
       />
       {errors.confirm_password && (
-        <p className="error-msg">
+        <p className="error-msg ">
           {errors.confirm_password.type === "validate"
             ? "Passwords don't match"
             : "This field is required"}

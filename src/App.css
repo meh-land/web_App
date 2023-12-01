@@ -117,7 +117,8 @@ a {
   border: 1px solid #fff;
   background: transparent;
 }
-.form-block--is-signup .form-group__input {
+.form-block--is-signup .form-group__input,
+.form-block--is-signup .error-msg {
   transform: translateX(-150%);
 }
 .form-group--login .form-group__input {
@@ -126,10 +127,12 @@ a {
 .form-block--is-signup .form-group--login .form-group__input {
   opacity: 0;
 }
-.form-group--signup .form-group__input {
+.form-group--signup .form-group__input,
+.form-group--signup .error-msg {
   opacity: 0;
 }
-.form-block--is-signup .form-group--signup .form-group__input {
+.form-block--is-signup .form-group--signup .form-group__input,
+.form-block--is-signup .form-group--signup .error-msg {
   opacity: 1;
 }
 
