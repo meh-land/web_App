@@ -51,7 +51,7 @@ a {
 .form-block {
   position: relative;
   margin: 100px 0 0 100px;
-  width: 285px;
+  width: 340px;
   padding: 25px;
   background: rgb(255 255 255 / 36%);
   border-radius: 2px;
@@ -86,7 +86,7 @@ a {
   transition: all 0.25s cubic-bezier(0.36, 1, 0.62, 0.98) 0.3s;
 }
 .form-block--is-signup .form-block__input-wrapper {
-  height: 300px;
+  height: 340px;
   -moz-transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
   -webkit-transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
   transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
@@ -133,7 +133,8 @@ a {
   opacity: 1;
 }
 
-.form-group__input:nth-of-type(1) {
+.form-group__input:nth-of-type(1),
+.error-msg:nth-of-type(1) {
   -moz-transition: transform 0.35s cubic-bezier(0.36, 1, 0.62, 0.98) 0.085s,
     opacity 0.3s ease-in-out 0.2s, background 0.15s ease-in-out,
     border 0.3s ease-in-out;
