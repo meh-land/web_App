@@ -40,36 +40,22 @@ const Membership: FC = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <>
-      <div className={`app app--is-${action}`}>
-        <div>
-          <div
-            className={`form-block-wrapper form-block-wrapper--is-${action}`}
-          ></div>
-          <section
-            ref={boxRef}
-            className={`form-block form-block--is-${action}`}
-          >
-            <header className="form-block__header">
-              <h1>{action === "login" ? "Welcome back!" : "Sign up"}</h1>
-              <div className="form-block__toggle-block">
-                <span>
-                  {action === "login" ? "Don't" : "Already"} have an account?
-                  Click here &#8594;
-                </span>
-                <input
-                  id="form-toggler"
-                  type="checkbox"
-                  onClick={toggleAction}
-                />
-                <label htmlFor="form-toggler"></label>
-              </div>
-            </header>
-            <Login_Signup />
-          </section>
-        </div>
-      </div>
-    </>
+    <div className={`app app--is-${action}`}>
+      <section ref={boxRef} className={`form-block form-block--is-${action}`}>
+        <header className="form-block__header">
+          <h1>{action === "login" ? "Welcome back!" : "Sign up"}</h1>
+          <div className="form-block__toggle-block">
+            <span>
+              {action === "login" ? "Don't" : "Already"} have an account? Click
+              here &#8594;
+            </span>
+            <input id="form-toggler" type="checkbox" onClick={toggleAction} />
+            <label htmlFor="form-toggler"></label>
+          </div>
+        </header>
+        <Login_Signup />
+      </section>
+    </div>
   );
 };
 
