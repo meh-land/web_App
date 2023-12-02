@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import Login from "../Login/Login";
-import Signup from "../Signup/Signup";
+import Login from "./Login";
+import Signup from "./Signup";
 
 const Login_Signup: FC = () => {
   return (

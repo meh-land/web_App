@@ -53,20 +53,20 @@ a {
   margin: 100px 0 0 100px;
   width: 340px;
   padding: 25px;
-  background: rgb(255 255 255 / 36%);
   border-radius: 2px;
   color: #fff;
-  -webkit-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07);
+  /* -webkit-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07);
   -moz-box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07);
-  box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07);
+    background: rgb(255 255 255 / 36%);
+  box-shadow: 0px 0px 16px 9px rgba(0, 0, 0, 0.07); */
 }
 
 .form-block__header {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .form-block__header h1 {
   font-size: 30px;
-  margin: 0 0 20px;
+  margin: 0 0 10px;
 }
 
 .form-block__toggle-block {
@@ -86,7 +86,6 @@ a {
   transition: all 0.25s cubic-bezier(0.36, 1, 0.62, 0.98) 0.3s;
 }
 .form-block--is-signup .form-block__input-wrapper {
-  height: 340px;
   -moz-transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
   -webkit-transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
   transition: all 0.5s cubic-bezier(0.36, 1, 0.62, 0.98) 0.2s;
@@ -107,7 +106,7 @@ a {
   box-sizing: border-box;
   font-size: 16px;
   padding: 14px 10px;
-  margin-bottom: 15px;
+  margin-top: 10px;
   background: rgba(255, 255, 255, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1px;
@@ -285,23 +284,10 @@ input[type="checkbox"]:checked + label:after {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.tooltip {
-  padding: 7px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  border-radius: 1px;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  font-size: 12px;
-  position: absolute;
-  top: -10px;
-  right: 0;
-}
-
 .error-msg {
   color: red;
   font-size: 0.8rem;
-  margin-top: 0.2rem;
+  margin: 0;
   border-radius: 1px;
 }
 

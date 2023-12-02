@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect, useLayoutEffect, useRef } from "react";
 import Context from "../../Context";
 import { useState } from "react";
-import Login_Signup from "../Login_Signup/Login_Signup";
+import Login_Signup from "./Login_Signup";
 import Loader from "../Loader/Loader";
 import { gsap } from "gsap";
 
