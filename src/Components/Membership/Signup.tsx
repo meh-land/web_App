@@ -12,12 +12,16 @@ interface UserInfo {
 
 interface FormData {
   fullname: string;
-  email: string;
+  mail: string;
   password: string;
   confirm_password: string;
 }
 
-const Signup: FC = () => {
+interface Props {
+  handleClick: () => void;
+}
+
+const Signup: FC<Props> = ({ handleClick }) => {
   const { logged_in, setLoggedIn } = useContext(Context);
   const navigate = useNavigate();
   const {
@@ -58,84 +62,99 @@ const Signup: FC = () => {
   };
 
   return (
-    <form
-      className="form-group  form-group--signup"
-      onSubmit={handleSubmit(signup)}
-    >
-      <input
-        className="form-group__input"
-        type="text"
-        id="fullname"
-        placeholder="Full Name"
-        {...register("fullname", {
-          required: true,
-          pattern: /^[A-Za-z]+$/,
-          onChange: onChangeValue,
-        })}
-      />
-      {errors.fullname && (
-        <p className="error-msg ">
-          {errors.fullname.type === "pattern"
-            ? "No numbers or special characters allowed"
-            : "This field is required"}
-        </p>
-      )}
-      <input
-        className="form-group__input"
-        type="email"
-        id="email"
-        placeholder="Email"
-        {...register("email", { required: true, onChange: onChangeValue })}
-      />
-      {errors.email && <p className="error-msg">This field is required</p>}
-      <input
-        className="form-group__input"
-        type="password"
-        id="createpassword"
-        placeholder="Password"
-        {...register("password", {
-          required: true,
-          minLength: 8,
-          pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-          onChange: onChangeValue,
-        })}
-      />
-      {errors.password && (
-        <p className="error-msg">
-          {errors.password.type === "minLength"
-            ? "Password must be 8 characters long"
-            : errors.password.type === "pattern"
-            ? "password must include at least one uppercase, one lowercase, one number and one special character."
-            : "This field is required"}
-        </p>
-      )}
-      <input
-        className="form-group__input"
-        type="password"
-        id="confirm_password"
-        placeholder="Confirm Password"
-        {...register("confirm_password", {
-          required: true,
-          validate: (value) =>
-            value ===
-            (document.getElementById("createpassword") as HTMLInputElement)
-              .value,
-        })}
-      />
-      {errors.confirm_password && (
-        <p className="error-msg ">
-          {errors.confirm_password.type === "validate"
-            ? "Passwords don't match"
-            : "This field is required"}
-        </p>
-      )}
-      <button
-        className="form-group__input button button--primary full-width"
-        type="submit"
-      >
-        Sign up
-      </button>
-    </form>
+    <div className="form-wrapper sign-up">
+      <form onSubmit={handleSubmit(signup)}>
+        <h2>Sign Up</h2>
+        <div className="input-group">
+          <input
+            type="text"
+            id="fullname"
+            placeholder=" "
+            {...register("fullname", {
+              required: true,
+              pattern: /^[A-Za-z]+$/,
+              onChange: onChangeValue,
+            })}
+          />
+          <label htmlFor="fullname">Username</label>
+        </div>
+        {errors.fullname && (
+          <p className="error-msg ">
+            {errors.fullname.type === "pattern"
+              ? "No numbers or special characters allowed"
+              : "This field is required"}
+          </p>
+        )}
+        <div className="input-group">
+          <input
+            type="email"
+            id="mail"
+            placeholder=" "
+            {...register("mail", { required: true, onChange: onChangeValue })}
+          />
+          <label htmlFor="">Email</label>
+        </div>
+        {errors.mail && <p className="error-msg">This field is required</p>}
+        <div className="input-group">
+          <input
+            type="password"
+            id="createpassword"
+            placeholder=" "
+            {...register("password", {
+              required: true,
+              minLength: 8,
+              pattern:
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
+              onChange: onChangeValue,
+            })}
+          />
+          <label htmlFor="">Password</label>
+        </div>
+        {errors.password && (
+          <p className="error-msg">
+            {errors.password.type === "minLength"
+              ? "Password must be 8 characters long"
+              : errors.password.type === "pattern"
+              ? "password must include at least one uppercase, one lowercase, one number and one special character."
+              : "This field is required"}
+          </p>
+        )}
+        <div className="input-group">
+          <input
+            type="password"
+            id="confirm_password"
+            placeholder=" "
+            {...register("confirm_password", {
+              required: true,
+              validate: (value) =>
+                value ===
+                (document.getElementById("createpassword") as HTMLInputElement)
+                  .value,
+            })}
+          />
+          <label htmlFor="">Confirm Password</label>
+        </div>
+        {errors.confirm_password && (
+          <p className="error-msg ">
+            {errors.confirm_password.type === "validate"
+              ? "Passwords don't match"
+              : "This field is required"}
+          </p>
+        )}
+
+        <button className="mt-3" type="submit">
+          Sign Up
+        </button>
+        <div className="signUp-link">
+          <p>
+            Already have an account?
+            <span onClick={handleClick} className="SignInBtn-link">
+              Sign In
+            </span>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 };
 

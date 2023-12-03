@@ -9,7 +9,11 @@ interface UserInfo {
   password: string;
 }
 
-const Login: FC = () => {
+interface Props {
+  handleClick: () => void;
+}
+
+const Login: FC<Props> = ({ handleClick }) => {
   const {
     logged_in,
     setLoggedIn,
@@ -61,48 +65,60 @@ const Login: FC = () => {
   };
 
   return (
-    <form
-      className="form-group form-group--login"
-      onSubmit={handleSubmit(login)}
-    >
-      <input
-        className="form-group__input"
-        type="email"
-        id="email"
-        placeholder="Email"
-        {...register("email", { required: true, onChange: onChangeValue })}
-      />
-      {errors.email && <p className="error-msg ">This field is required</p>}
+    <div className="form-wrapper sign-in">
+      <form onSubmit={handleSubmit(login)}>
+        <h2>Sign In</h2>
+        <div className="input-group">
+          <input
+            type="email"
+            id="email"
+            placeholder=" "
+            {...register("email", { required: true, onChange: onChangeValue })}
+          />
+          <label htmlFor="email">Email</label>
+        </div>
+        {errors.email && <p className="error-msg ">This field is required</p>}
 
-      <input
-        className="form-group__input"
-        type="password"
-        id="password"
-        placeholder="Password"
-        {...register("password", {
-          required: true,
-          minLength: 8,
-          pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-          onChange: onChangeValue,
-        })}
-      />
-      {errors.password && (
-        <p className="error-msg">
-          {errors.password.type === "minLength"
-            ? "Password must be 8 characters long"
-            : errors.password.type === "pattern"
-            ? "Password must include at least one uppercase, one lowercase, one number, and one special character."
-            : "This field is required"}
-        </p>
-      )}
-
-      <button
-        className="button form-group__input button--primary full-width"
-        type="submit"
-      >
-        Login
-      </button>
-    </form>
+        <div className="input-group">
+          <input
+            type="password"
+            id="password"
+            placeholder=" "
+            {...register("password", {
+              required: true,
+              minLength: 8,
+              pattern:
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
+              onChange: onChangeValue,
+            })}
+          />
+          <label htmlFor="password">Password</label>
+        </div>
+        {errors.password && (
+          <p className="error-msg">
+            {errors.password.type === "minLength"
+              ? "Password must be 8 characters long"
+              : errors.password.type === "pattern"
+              ? "Password must include at least one uppercase, one lowercase, one number, and one special character."
+              : "This field is required"}
+          </p>
+        )}
+        <div className="remember">
+          <label>
+            <input type="checkbox" /> Remember me
+          </label>
+        </div>
+        <button type="submit">Sign In</button>
+        <div className="signUp-link">
+          <p>
+            Don't have an account?
+            <span className="SignUpBtn-link" onClick={handleClick}>
+              Sign Up
+            </span>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 };
 

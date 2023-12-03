@@ -1,13 +1,20 @@
-import { FC, useContext, useEffect, useLayoutEffect, useRef } from "react";
+import {
+  FC,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import Context from "../../Context";
-import { useState } from "react";
-import Login_Signup from "./Login_Signup";
 import Loader from "../Loader/Loader";
 import { gsap } from "gsap";
+import Login from "./Login";
+import Signup from "./Signup";
+import "./Membership.css";
 
 const Membership: FC = () => {
   const [action, setAction] = useState<string>("login");
-
   const { isLoading, setIsLoading } = useContext(Context);
 
   const boxRef = useRef(null);
@@ -40,21 +47,11 @@ const Membership: FC = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <div className={`app app--is-${action}`}>
-      <section ref={boxRef} className={`form-block form-block--is-${action}`}>
-        <header className="form-block__header">
-          <h1>{action === "login" ? "Welcome back!" : "Sign up"}</h1>
-          <div className="form-block__toggle-block">
-            <span>
-              {action === "login" ? "Don't" : "Already"} have an account? Click
-              here &#8594;
-            </span>
-            <input id="form-toggler" type="checkbox" onClick={toggleAction} />
-            <label htmlFor="form-toggler"></label>
-          </div>
-        </header>
-        <Login_Signup />
-      </section>
+    <div className="app">
+      <div className={action === "login" ? "wrapper" : "wrapper active"}>
+        <Login handleClick={toggleAction} />
+        <Signup handleClick={toggleAction} />
+      </div>
     </div>
   );
 };

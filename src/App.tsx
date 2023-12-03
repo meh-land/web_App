@@ -7,6 +7,7 @@ import Profile from "./Components/Profile/Profile";
 import MobSidebar from "./Components/mobSidebar/mobSidebar";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import "./App.css";
+import Footer from "./Components/Footer/Footer";
 
 interface UserData {
   user_id: string;
@@ -84,6 +85,7 @@ function App() {
           <Route path="/Membership" element={<Membership />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </Context.Provider>
   );
 }
