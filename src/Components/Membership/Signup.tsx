@@ -12,7 +12,7 @@ interface UserInfo {
 
 interface FormData {
   fullname: string;
-  mail: string;
+  email: string;
   password: string;
   confirm_password: string;
 }
@@ -22,7 +22,7 @@ interface Props {
 }
 
 const Signup: FC<Props> = ({ handleClick }) => {
-  const { logged_in, setLoggedIn } = useContext(Context);
+  const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
   const navigate = useNavigate();
   const {
     register,
@@ -30,15 +30,9 @@ const Signup: FC<Props> = ({ handleClick }) => {
     handleSubmit,
   } = useForm<FormData>();
 
-  const [userInfo, setuserInfo] = useState<UserInfo>({
-    fullname: "",
-    email: "",
-    password: "",
-  });
-
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setuserInfo({
-      ...userInfo,
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
@@ -47,14 +41,14 @@ const Signup: FC<Props> = ({ handleClick }) => {
     try {
       axios
         .post(`http://127.0.0.1/apicrud/addusers.php`, {
-          fullname: userInfo.fullname,
-          email: userInfo.email,
-          password: userInfo.password,
+          fullname: userData.fullname,
+          email: userData.email,
+          password: userData.password,
         })
         .then((res) => {
           setLoggedIn(res.data.status);
           navigate(`/`);
-          return;
+          console.log(userData);
         });
     } catch (error) {
       throw error;
@@ -88,13 +82,13 @@ const Signup: FC<Props> = ({ handleClick }) => {
         <div className="input-group">
           <input
             type="email"
-            id="mail"
+            id="email"
             placeholder=" "
-            {...register("mail", { required: true, onChange: onChangeValue })}
+            {...register("email", { required: true, onChange: onChangeValue })}
           />
           <label htmlFor="">Email</label>
         </div>
-        {errors.mail && <p className="error-msg">This field is required</p>}
+        {errors.email && <p className="error-msg">This field is required</p>}
         <div className="input-group">
           <input
             type="password"

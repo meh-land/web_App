@@ -48,7 +48,10 @@ const Membership: FC = () => {
     <Loader />
   ) : (
     <div className="app">
-      <div className={action === "login" ? "wrapper" : "wrapper active"}>
+      <div
+        ref={boxRef}
+        className={action === "login" ? "wrapper" : "wrapper active"}
+      >
         <Login handleClick={toggleAction} />
         <Signup handleClick={toggleAction} />
       </div>
