@@ -10,7 +10,7 @@ import "./App.css";
 import Footer from "./Components/Footer/Footer";
 
 interface UserData {
-  user_id: string;
+  user_id: number | string;
   name: string;
   email: string;
   password: string;

@@ -4,14 +4,8 @@ import { useForm } from "react-hook-form";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
 
-interface UserInfo {
-  fullname: string;
-  email: string;
-  password: string;
-}
-
 interface FormData {
-  fullname: string;
+  name: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -41,12 +35,16 @@ const Signup: FC<Props> = ({ handleClick }) => {
     try {
       axios
         .post(`http://127.0.0.1/apicrud/addusers.php`, {
-          fullname: userData.fullname,
+          fullname: userData.name,
           email: userData.email,
           password: userData.password,
         })
         .then((res) => {
           setLoggedIn(res.data.status);
+          setUserData({
+            ...userData,
+            user_id: res.data.insertid,
+          });
           navigate(`/`);
           console.log(userData);
         });
@@ -62,19 +60,19 @@ const Signup: FC<Props> = ({ handleClick }) => {
         <div className="input-group">
           <input
             type="text"
-            id="fullname"
+            id="name"
             placeholder=" "
-            {...register("fullname", {
+            {...register("name", {
               required: true,
               pattern: /^[A-Za-z]+$/,
               onChange: onChangeValue,
             })}
           />
-          <label htmlFor="fullname">Username</label>
+          <label htmlFor="name">Username</label>
         </div>
-        {errors.fullname && (
+        {errors.name && (
           <p className="error-msg ">
-            {errors.fullname.type === "pattern"
+            {errors.name.type === "pattern"
               ? "No numbers or special characters allowed"
               : "This field is required"}
           </p>
