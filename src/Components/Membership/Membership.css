@@ -18,10 +18,10 @@ a {
   cursor: pointer;
 }
 
-.error-msg {
+.form-wrapper form .error-msg {
   color: red;
   font-size: 0.8rem;
-  margin: 0;
+  margin: -1.5rem 0 1.5rem;
   border-radius: 1px;
 }
 
@@ -70,7 +70,7 @@ h2 {
 
 .input-group {
   position: relative;
-  margin: 10px 0 10px 0;
+  margin: 10px 0 30px 0;
   border-bottom: 2px solid #fff;
 }
 
@@ -99,8 +99,7 @@ h2 {
 
 .form-wrapper input:focus + label,
 .form-wrapper input:not(:placeholder-shown) + label,
-.form-wrapper input:active + label,
-.form-wrapper .Active {
+.form-wrapper input:active + label {
   top: -5px;
 }
 
