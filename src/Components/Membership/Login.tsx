@@ -105,7 +105,14 @@ const Login: FC<Props> = ({ handleClick }) => {
         )}
         <div className="remember">
           <label>
-            <input type="checkbox" /> Remember me
+            <input
+              type="checkbox"
+              checked={logged_in}
+              onChange={() => {
+                setLoggedIn(!logged_in);
+              }}
+            />
+            Remember me
           </label>
         </div>
         <button type="submit">Sign In</button>

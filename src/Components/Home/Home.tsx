@@ -5,6 +5,7 @@ import Path from "../Path/Path";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
+import Cookies from "js-cookie";
 
 const Home: FC = () => {
   const { isLoading, setIsLoading } = useContext(Context);
@@ -15,6 +16,16 @@ const Home: FC = () => {
       setIsLoading(false);
       console.log("loading");
     }, 3000);
+  }, []);
+
+  useEffect(() => {
+    // Read a cookie by name
+    const cookieValue = Cookies.get("username");
+
+    if (cookieValue) {
+      // Do something with the cookie value
+      console.log("Cookie Value:", cookieValue);
+    }
   }, []);
 
   return isLoading ? (
