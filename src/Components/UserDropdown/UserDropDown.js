@@ -11,7 +11,7 @@ export default function Dropdown() {
 
   useEffect(() => {
     if (logged_in === true) {
-      setCookie("remeberMe", true, {
+      setCookie("rememberMe", true, {
         path: "/",
         expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
       });
@@ -30,7 +30,7 @@ export default function Dropdown() {
 
   const logout = () => {
     setLoggedIn(!logged_in);
-    setCookie("remeberMe", false, {
+    setCookie("rememberMe", false, {
       path: "/",
       expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
     });
