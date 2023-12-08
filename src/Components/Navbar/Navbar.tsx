@@ -36,27 +36,6 @@ const Navbar: FC = () => {
       </div>
     </div>
   );
-
-  /*   return (
-    <>
-      <div id="header" classNameName="d-flex bd-highlight mb-3">
-        <div classNameName="header">
-          <div classNameName="header_in">
-            <div classNameName="trigger_logo">
-              <CircleBtn clickHandler={OpenSidebar} active={sidebar} />
-              <div classNameName="logo">
-                <h5>Welcome Back , {userData.name}</h5>
-              </div>
-            </div>
-
-            <div classNameName="wallet">
-              <Dropdown />
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  ); */
 };
 
 export default Navbar;

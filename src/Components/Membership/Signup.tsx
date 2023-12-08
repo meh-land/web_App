@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FC, useContext, useState } from "react";
+import { FC, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ interface Props {
 
 const Signup: FC<Props> = ({ handleClick }) => {
   const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
+
   const navigate = useNavigate();
   const {
     register,
@@ -45,6 +46,7 @@ const Signup: FC<Props> = ({ handleClick }) => {
             ...userData,
             user_id: res.data.insertid,
           });
+
           navigate(`/`);
           console.log(userData);
         });
@@ -133,7 +135,18 @@ const Signup: FC<Props> = ({ handleClick }) => {
               : "This field is required"}
           </p>
         )}
-
+        <div className="remember">
+          <label>
+            <input
+              type="checkbox"
+              checked={logged_in}
+              onChange={() => {
+                setLoggedIn(!logged_in);
+              }}
+            />
+            Remember me
+          </label>
+        </div>
         <button className="mt-3" type="submit">
           Sign Up
         </button>
