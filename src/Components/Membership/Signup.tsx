@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,9 @@ interface Props {
 
 const Signup: FC<Props> = ({ handleClick }) => {
   const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
+  const [newPasswordVisible, setNewPasswordVisible] = useState<boolean>(false);
+  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] =
+    useState<boolean>(false);
 
   const navigate = useNavigate();
   const {
@@ -30,6 +33,19 @@ const Signup: FC<Props> = ({ handleClick }) => {
       ...userData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleToggle = (field: string) => {
+    switch (field) {
+      case "NewPassword":
+        setNewPasswordVisible(!newPasswordVisible);
+        break;
+      case "ConfirmNewPassword":
+        setConfirmNewPasswordVisible(!confirmNewPasswordVisible);
+        break;
+      default:
+        break;
+    }
   };
 
   const signup = async () => {
@@ -91,7 +107,7 @@ const Signup: FC<Props> = ({ handleClick }) => {
         {errors.email && <p className="error-msg">This field is required</p>}
         <div className="input-group">
           <input
-            type="password"
+            type={newPasswordVisible ? "text" : "password"}
             id="createpassword"
             placeholder=" "
             {...register("password", {
@@ -103,6 +119,10 @@ const Signup: FC<Props> = ({ handleClick }) => {
             })}
           />
           <label htmlFor="">Password</label>
+          <i
+            onClick={() => handleToggle("NewPassword")}
+            className={`bx bxs-${newPasswordVisible ? "show" : "hide"} fs-3`}
+          ></i>
         </div>
         {errors.password && (
           <p className="error-msg">
@@ -115,7 +135,7 @@ const Signup: FC<Props> = ({ handleClick }) => {
         )}
         <div className="input-group">
           <input
-            type="password"
+            type={confirmNewPasswordVisible ? "text" : "password"}
             id="confirm_password"
             placeholder=" "
             {...register("confirm_password", {
@@ -127,6 +147,12 @@ const Signup: FC<Props> = ({ handleClick }) => {
             })}
           />
           <label htmlFor="">Confirm Password</label>
+          <i
+            onClick={() => handleToggle("ConfirmNewPassword")}
+            className={`bx bxs-${
+              confirmNewPasswordVisible ? "show" : "hide"
+            } fs-3`}
+          ></i>
         </div>
         {errors.confirm_password && (
           <p className="error-msg ">

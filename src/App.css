@@ -16,3 +16,8 @@ body {
   margin: 0 !important;
   background: var(--bg);
 }
+
+.bx .bxs-hide,
+.bx .bxs-show {
+  color: var(--bs-teal);
+}

@@ -23,6 +23,8 @@ const Login: FC<Props> = ({ handleClick }) => {
     setIsLoading,
   } = useContext(Context);
 
+  const [PasswordVisible, setPasswordVisible] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const {
@@ -41,6 +43,10 @@ const Login: FC<Props> = ({ handleClick }) => {
       ...userInfo,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleToggle = () => {
+    setPasswordVisible(!PasswordVisible);
   };
 
   const login = () => {
@@ -81,7 +87,7 @@ const Login: FC<Props> = ({ handleClick }) => {
 
         <div className="input-group">
           <input
-            type="password"
+            type={PasswordVisible ? "text" : "password"}
             id="password"
             placeholder=" "
             {...register("password", {
@@ -93,6 +99,10 @@ const Login: FC<Props> = ({ handleClick }) => {
             })}
           />
           <label htmlFor="password">Password</label>
+          <i
+            onClick={handleToggle}
+            className={`bx bxs-${PasswordVisible ? "show" : "hide"} fs-3`}
+          ></i>
         </div>
         {errors.password && (
           <p className="error-msg">

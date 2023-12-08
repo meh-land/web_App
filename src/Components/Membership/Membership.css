@@ -71,7 +71,9 @@ h2 {
 .input-group {
   position: relative;
   margin: 10px 0 30px 0;
+  display: flex;
   border-bottom: 2px solid #fff;
+  flex-wrap: nowrap;
 }
 
 .input-group label {
