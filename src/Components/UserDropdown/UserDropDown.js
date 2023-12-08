@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 export default function Dropdown() {
   const [active, setActive] = useState(false);
   const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   useEffect(() => {
     console.log(userData); // This will log the updated userData
@@ -27,7 +27,10 @@ export default function Dropdown() {
 
   const logout = () => {
     setLoggedIn(!logged_in);
-    setUserData({ user_id: "", name: "", email: "" });
+    setUserData({ user_id: "", name: "", email: "", password: "" });
+    for (const key in userData) {
+      removeCookie(key, { path: "/" });
+    }
   };
 
   return (
