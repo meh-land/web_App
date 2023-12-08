@@ -11,6 +11,10 @@ export default function Dropdown() {
 
   useEffect(() => {
     if (logged_in === true) {
+      setCookie("remeberMe", true, {
+        path: "/",
+        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      });
       for (const key in userData) {
         setCookie(key, userData[key], {
           path: "/",
@@ -26,6 +30,10 @@ export default function Dropdown() {
 
   const logout = () => {
     setLoggedIn(!logged_in);
+    setCookie("remeberMe", false, {
+      path: "/",
+      expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+    });
     setUserData({ user_id: "", name: "", email: "", password: "" });
     for (const key in userData) {
       removeCookie(key, { path: "/" });

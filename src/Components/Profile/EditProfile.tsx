@@ -4,6 +4,7 @@ import "./Profile.css";
 import Context from "../../Context";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useCookies } from "react-cookie";
 
 interface FormData {
   fullName: string;
@@ -12,6 +13,8 @@ interface FormData {
 const EditProfile: FC = () => {
   const { userData, setUserData, setIsLoading } = useContext(Context);
   const [errortext, setErrorText] = useState<string>("");
+  const [cookies, setCookie] = useCookies<string>(["user"]);
+
   const {
     register,
     formState: { errors },
@@ -39,6 +42,12 @@ const EditProfile: FC = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        for (const key in userData) {
+          setCookie(key, userData[key], {
+            path: "/",
+            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+          });
+        }
       } else {
         setErrorText(response.data.msg);
         console.log(response.data.status);

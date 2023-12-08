@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Profile.css";
 import Context from "../../Context";
 import Swal from "sweetalert2";
+import { useCookies } from "react-cookie";
 
 interface ChangePasswordProps {
   currentPassword: string;
@@ -21,6 +22,8 @@ const ChangePassword: FC = () => {
     handleSubmit,
     reset,
   } = useForm<ChangePasswordProps>();
+
+  const [cookies, setCookie] = useCookies<string>(["user"]);
 
   const handlePasswordChange = async () => {
     try {
@@ -43,6 +46,10 @@ const ChangePassword: FC = () => {
         });
         setIsLoading(false);
         setUserData({ ...userData, password: newPassword });
+        setCookie("password", newPassword, {
+          path: "/",
+          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        });
       } else {
         setErrorText(response.data.msg);
         console.log(response.data.status);
