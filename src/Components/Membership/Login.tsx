@@ -3,6 +3,7 @@ import { FC, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 interface UserInfo {
   email: string;
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const Login: FC<Props> = ({ handleClick }) => {
+  const [cookies, setCookie] = useCookies<string>(["user"]);
+
   const {
     logged_in,
     setLoggedIn,
@@ -55,6 +58,16 @@ const Login: FC<Props> = ({ handleClick }) => {
         setLoggedIn(res.data.status);
         const user = res.data.user;
         setUserData(user);
+
+        if (logged_in === true) {
+          for (const key in user) {
+            setCookie(key, user[key], {
+              path: "/",
+              expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+            });
+          }
+        }
+
         navigate(`/`);
         setIsLoading(false);
       })
