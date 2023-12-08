@@ -16,6 +16,12 @@ const ChangePassword: FC = () => {
   const { userData, setUserData, setIsLoading } = useContext(Context);
   const [newPassword, setNewPassword] = useState<string>("");
   const [errortext, setErrorText] = useState<string>("");
+  const [currentPasswordVisible, setCurrentPasswordVisible] =
+    useState<boolean>(false);
+  const [newPasswordVisible, setNewPasswordVisible] = useState<boolean>(false);
+  const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] =
+    useState<boolean>(false);
+
   const {
     register,
     formState: { errors },
@@ -24,6 +30,22 @@ const ChangePassword: FC = () => {
   } = useForm<ChangePasswordProps>();
 
   const [cookies, setCookie] = useCookies<string>(["user"]);
+
+  const handleToggle = (field: string) => {
+    switch (field) {
+      case "currentPassword":
+        setCurrentPasswordVisible(!currentPasswordVisible);
+        break;
+      case "NewPassword":
+        setNewPasswordVisible(!newPasswordVisible);
+        break;
+      case "ConfirmNewPassword":
+        setConfirmNewPasswordVisible(!confirmNewPasswordVisible);
+        break;
+      default:
+        break;
+    }
+  };
 
   const handlePasswordChange = async () => {
     try {
@@ -37,7 +59,7 @@ const ChangePassword: FC = () => {
         }
       );
       console.log(newPassword);
-      if (response.data.status == true) {
+      if (response.data.status === true) {
         Swal.fire({
           icon: "success",
           title: "Your work has been saved",
@@ -59,6 +81,9 @@ const ChangePassword: FC = () => {
       console.error(error);
       setIsLoading(false);
     }
+    setCurrentPasswordVisible(false);
+    setNewPasswordVisible(false);
+    setConfirmNewPasswordVisible(false);
   };
 
   return (
@@ -66,30 +91,45 @@ const ChangePassword: FC = () => {
       <h6>Change Password</h6>
       <hr />
       <form onSubmit={handleSubmit(handlePasswordChange)}>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter your old password"
-          {...register("currentPassword", {
-            required: true,
-            validate: (value) => value === userData.password,
-          })}
-        />
+        <div className="d-flex justify-content-center align-items-center">
+          <input
+            type={currentPasswordVisible ? "text" : "password"}
+            className="form-control"
+            placeholder="Enter your old password"
+            {...register("currentPassword", {
+              required: true,
+              validate: (value) => value === userData.password,
+            })}
+          />
+          <i
+            onClick={() => handleToggle("currentPassword")}
+            className={`bx bxs-${
+              currentPasswordVisible ? "show" : "hide"
+            } fs-3`}
+          ></i>
+        </div>
         {errors.currentPassword && (
           <p className="error-msg">This field is required</p>
         )}
-
-        <input
-          className="form-control mt-1"
-          placeholder="New password"
-          id="NewPassword"
-          {...register("NewPassword", {
-            required: true,
-            minLength: 8,
-            pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
-            onChange: (e) => setNewPassword(e.target.value),
-          })}
-        />
+        <div className="d-flex justify-content-center align-items-center">
+          <input
+            type={newPasswordVisible ? "text" : "password"}
+            className="form-control mt-1"
+            placeholder="New password"
+            id="NewPassword"
+            {...register("NewPassword", {
+              required: true,
+              minLength: 8,
+              pattern:
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
+              onChange: (e) => setNewPassword(e.target.value),
+            })}
+          />
+          <i
+            onClick={() => handleToggle("NewPassword")}
+            className={`bx bxs-${newPasswordVisible ? "show" : "hide"} fs-3`}
+          ></i>
+        </div>
         {errors.NewPassword && (
           <p className="error-msg">
             {errors.NewPassword.type === "minLength"
@@ -99,19 +139,26 @@ const ChangePassword: FC = () => {
               : "This field is required"}
           </p>
         )}
-
-        <input
-          type="text"
-          className="form-control mt-1"
-          placeholder="Confirm new password"
-          {...register("ConfirmNewPassword", {
-            required: true,
-            validate: (value) =>
-              value ===
-              (document.getElementById("NewPassword") as HTMLInputElement)
-                .value,
-          })}
-        />
+        <div className="d-flex justify-content-center align-items-center">
+          <input
+            type={confirmNewPasswordVisible ? "text" : "password"}
+            className="form-control mt-1"
+            placeholder="Confirm new password"
+            {...register("ConfirmNewPassword", {
+              required: true,
+              validate: (value) =>
+                value ===
+                (document.getElementById("NewPassword") as HTMLInputElement)
+                  .value,
+            })}
+          />
+          <i
+            onClick={() => handleToggle("ConfirmNewPassword")}
+            className={`bx bxs-${
+              confirmNewPasswordVisible ? "show" : "hide"
+            } fs-3`}
+          ></i>
+        </div>
         {errors.ConfirmNewPassword && (
           <p className="error-msg">
             {errors.ConfirmNewPassword.type === "validate"
