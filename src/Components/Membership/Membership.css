@@ -21,7 +21,7 @@ a {
 .form-wrapper form .error-msg {
   color: red;
   font-size: 0.8rem;
-  margin: -1.5rem 0 1.5rem;
+  margin: -1.5rem 0 1rem;
   border-radius: 1px;
 }
 
@@ -32,7 +32,7 @@ main {
 .wrapper {
   position: relative;
   width: 400px;
-  height: 500px;
+  height: 520px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
@@ -88,7 +88,7 @@ h2 {
 
 .input-group input {
   width: 320px;
-  height: 40px;
+  height: 30px;
   font-size: 16px;
   color: #fff;
   padding: 0 5px;
@@ -114,6 +114,7 @@ h2 {
 
 .remember label input {
   accent-color: var(--bs-teal);
+  margin-right: 5px;
 }
 
 form button {

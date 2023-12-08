@@ -10,7 +10,6 @@ export default function Dropdown() {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
 
   useEffect(() => {
-    console.log(userData); // This will log the updated userData
     if (logged_in === true) {
       for (const key in userData) {
         setCookie(key, userData[key], {
