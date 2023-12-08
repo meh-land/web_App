@@ -43,7 +43,9 @@ export default function Dropdown() {
   return (
     <div className="User-area">
       <div className="User-avtar" onClick={handleClick}>
-        <div className="circle">{userData.name[0]}</div>
+        <div className="circle">
+          <span>{userData.name[0]}</span>
+        </div>
       </div>
       <ul className={!active ? "User-Dropdown" : "User-Dropdown U-open"}>
         <li>
