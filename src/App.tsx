@@ -36,6 +36,11 @@ function App() {
       navigate(`/Membership`);
     } else {
       navigate(`/`);
+      for (const key in userData) {
+        if (key in cookies) {
+          userData[key as keyof UserData] = cookies[key as keyof UserData];
+        }
+      }
     }
   }, [cookies.rememberMe]);
 
