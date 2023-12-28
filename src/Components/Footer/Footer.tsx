@@ -3,9 +3,13 @@ import "./Footer.css";
 
 const Footer: FC = () => {
   return (
-    <footer>
-      <p className="text-center text-body-secondary">© 2023 Company, Inc</p>
-    </footer>
+    <div className="MuiStack-root footer css-1ofau7z">
+      <div className="MuiBox-root css-0">
+        <p className="MuiTypography-root MuiTypography-body1 css-1igm5rv">
+          © 2023 Company, Inc
+        </p>
+      </div>
+    </div>
   );
 };
 

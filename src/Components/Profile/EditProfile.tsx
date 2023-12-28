@@ -60,10 +60,12 @@ const EditProfile: FC = () => {
 
   return (
     <div id="profile">
-      <h6>YOUR PROFILE INFORMATION</h6>
+      <h6>PROFILE INFORMATION</h6>
       <hr />
       <form onSubmit={handleSubmit(handleEditPress)}>
-        <label htmlFor="fullName">Full Name</label>
+        <label htmlFor="fullName" className="mb-1">
+          Full Name
+        </label>
         <input
           type="text"
           className="form-control"
@@ -77,7 +79,9 @@ const EditProfile: FC = () => {
             })
           }
         />
-        <label htmlFor="fullName">Email</label>
+        <label htmlFor="fullName" className="mt-4 mb-1">
+          Email
+        </label>
         <input
           type="email"
           className="form-control"
@@ -92,7 +96,7 @@ const EditProfile: FC = () => {
           }
         />
         <hr />
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-success">
           Update Profile
         </button>
         <button type="reset" className="btn btn-light" onClick={() => reset()}>

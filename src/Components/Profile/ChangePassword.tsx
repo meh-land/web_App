@@ -91,10 +91,10 @@ const ChangePassword: FC = () => {
       <h6>Change Password</h6>
       <hr />
       <form onSubmit={handleSubmit(handlePasswordChange)}>
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center form-control mt-1">
           <input
             type={currentPasswordVisible ? "text" : "password"}
-            className="form-control"
+            className="form-control border-0"
             placeholder="Enter your old password"
             {...register("currentPassword", {
               required: true,
@@ -111,10 +111,10 @@ const ChangePassword: FC = () => {
         {errors.currentPassword && (
           <p className="error-msg">This field is required</p>
         )}
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center form-control mt-3">
           <input
             type={newPasswordVisible ? "text" : "password"}
-            className="form-control mt-1"
+            className="form-control border-0"
             placeholder="New password"
             id="NewPassword"
             {...register("NewPassword", {
@@ -139,10 +139,10 @@ const ChangePassword: FC = () => {
               : "This field is required"}
           </p>
         )}
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center form-control mt-3">
           <input
             type={confirmNewPasswordVisible ? "text" : "password"}
-            className="form-control mt-1"
+            className="form-control border-0"
             placeholder="Confirm new password"
             {...register("ConfirmNewPassword", {
               required: true,

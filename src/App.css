@@ -1,12 +1,26 @@
 :root {
+  /* ===== Colors ===== */
+
   --mc1: #f1f1e6;
   --mc2: #c4cdff;
-  --bg: #ddd;
+  --bg: #f3f4f5;
   --bc: #9ba0b8;
   --hff: "Heebo", sans-serif;
   --bff: "Nunito", sans-serif;
   --hc: #419771;
   --bs-teal: #2d6250;
+
+  --body-color: #e4e9f7;
+  --sidebar-color: #ffffff;
+  --primary-color: #695cfe;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #707070;
+
+  /* ====== Transition ====== */
+  --tran-03: all 1s ease;
+  --tran-04: all 0.5s ease;
+  --tran-05: all 0.5s ease;
 }
 
 body {
@@ -20,4 +34,8 @@ body {
 .bx .bxs-hide,
 .bx .bxs-show {
   color: var(--bs-teal);
+}
+
+.btn-success {
+  background: var(--bs-teal);
 }

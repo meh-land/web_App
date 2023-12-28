@@ -1,3 +1,27 @@
 footer {
   border-top: var(--bs-border-width) var(--bs-border-style) var(--hc) !important;
 }
+
+.css-1ofau7z {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.css-1igm5rv {
+  margin: 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 0.8571428571428571rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+}

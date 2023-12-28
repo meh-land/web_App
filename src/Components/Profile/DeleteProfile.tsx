@@ -33,6 +33,8 @@ const DeleteProfile: FC = () => {
     reset,
   } = useForm<FormData>();
 
+  const [PasswordVisible, setPasswordVisible] = useState<boolean>(false);
+
   const { userData, isLoading, setIsLoading, logged_in, setLoggedIn } =
     useContext(Context);
 
@@ -67,6 +69,10 @@ const DeleteProfile: FC = () => {
       console.error(error);
       setIsLoading(false);
     }
+  };
+
+  const handleToggle = (field: string) => {
+    setPasswordVisible(!PasswordVisible);
   };
 
   return (
@@ -107,19 +113,26 @@ const DeleteProfile: FC = () => {
           </p>
         </div>
         <hr />
-        <label htmlFor="username">Password</label>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Enter your password"
-          {...register("currentPassword", {
-            required: true,
-            validate: (value) => value === userData.password,
-          })}
-        />
-        {errors.currentPassword && (
-          <p className="error-msg">This field is required</p>
-        )}
+
+        <div className="d-flex justify-content-center align-items-center form-control mt-3">
+          <input
+            type={PasswordVisible ? "text" : "password"}
+            className="form-control border-0"
+            placeholder="Enter your password"
+            {...register("currentPassword", {
+              required: true,
+              validate: (value) => value === userData.password,
+            })}
+          />
+          {errors.currentPassword && (
+            <p className="error-msg">This field is required</p>
+          )}
+          <i
+            onClick={() => handleToggle("NewPassword")}
+            className={`bx bxs-${PasswordVisible ? "show" : "hide"} fs-3`}
+          ></i>
+        </div>
+
         <hr />
         <button className="btn btn-danger" type="submit">
           Delete Account

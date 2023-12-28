@@ -54,3 +54,20 @@
   margin-top: 0.2rem;
   border-radius: 1px;
 }
+
+.nav a {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.nav a svg {
+  margin-right: 10px;
+}
+
+.nav a:hover {
+  color: var(--bs-teal);
+}
+
+.nav .active {
+  background: var(--bs-teal) !important;
+}
