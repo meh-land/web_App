@@ -29,6 +29,9 @@ body {
   color: var(--bs-teal);
   margin: 0 !important;
   background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .bx .bxs-hide,
@@ -38,4 +41,10 @@ body {
 
 .btn-success {
   background: var(--bs-teal);
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

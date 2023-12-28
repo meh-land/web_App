@@ -4,7 +4,6 @@
   padding-top: 0 !important;
   transition: 0.5s;
   position: relative;
-  min-height: 100vh;
   padding-bottom: 90px;
   overflow: hidden;
 }

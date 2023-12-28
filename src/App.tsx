@@ -57,50 +57,52 @@ function App() {
         setIsLoading,
       }}
     >
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <MobSidebar />
-              <Sidebar />
-              <Home />
-            </>
-          }
-        />
-        <Route
-          path="/Profile"
-          element={
-            <>
-              <MobSidebar />
-              <Sidebar />
-              <Profile element="EditProfile" />
-            </>
-          }
-        />
-        <Route
-          path="/Profile/ChangePassword"
-          element={
-            <>
-              <MobSidebar />
-              <Sidebar />
-              <Profile element="ChangePassword" />
-            </>
-          }
-        />
-        <Route
-          path="/Profile/DeleteAccount"
-          element={
-            <>
-              <MobSidebar />
-              <Sidebar />
-              <Profile element="DeleteAccount" />
-            </>
-          }
-        />
-        <Route path="/Membership" element={<Membership />} />
-      </Routes>
-      <Footer />
+      <div className="main-container">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Home />
+              </>
+            }
+          />
+          <Route
+            path="/Profile"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="EditProfile" />
+              </>
+            }
+          />
+          <Route
+            path="/Profile/ChangePassword"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="ChangePassword" />
+              </>
+            }
+          />
+          <Route
+            path="/Profile/DeleteAccount"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Profile element="DeleteAccount" />
+              </>
+            }
+          />
+          <Route path="/Membership" element={<Membership />} />
+        </Routes>
+        <Footer />
+      </div>
     </Context.Provider>
   );
 }

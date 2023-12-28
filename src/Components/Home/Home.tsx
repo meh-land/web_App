@@ -20,11 +20,11 @@ const Home: FC = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <section className="main_content dashboard_part">
+    <div className="main_content dashboard_part">
       <Navbar />
       <Path title="Home" />
       <Test />
-    </section>
+    </div>
   );
 };
 
