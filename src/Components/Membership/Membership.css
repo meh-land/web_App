@@ -25,10 +25,6 @@ a {
   border-radius: 1px;
 }
 
-main {
-  flex-grow: 2;
-}
-
 .wrapper {
   position: relative;
   width: 400px;

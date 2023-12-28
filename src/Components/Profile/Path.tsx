@@ -7,19 +7,10 @@ interface PathProps {
 
 const Path: FC<PathProps> = ({ path }) => {
   return (
-    <nav aria-label="breadcrumb" className="main-breadcrumb">
-      <ol className="breadcrumb">
-        <li className="breadcrumb-item">
-          <Link to="/">Home</Link>
-        </li>
-        <li className="breadcrumb-item">
-          <Link to="/Profile">My Profile</Link>
-        </li>
-        <li className="breadcrumb-item active" aria-current="page">
-          {path}
-        </li>
-      </ol>
-    </nav>
+    <>
+      <h3 className="">Account Settings</h3>
+      <hr className="hr hr-blurry" />
+    </>
   );
 };
 
