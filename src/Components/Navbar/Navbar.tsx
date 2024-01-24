@@ -4,6 +4,7 @@ import Context from "../../Context";
 import "./Navbar.css";
 import Dropdown from "../UserDropdown/UserDropDown";
 import CircleBtn from "../Circlebtn/Circlebtn";
+import DarkLight_Toggle from "../Dark_Light_Toggle/Dark_Light_Toggle";
 
 const Navbar: FC = () => {
   const [effect, seteffect] = useState<boolean>(false);
@@ -28,7 +29,8 @@ const Navbar: FC = () => {
             <div className="p-2 bd-highlight username d-none d-lg-block">
               <h5>Welcome Back , {userData.name}</h5>
             </div>
-            <div className="ms-auto p-2 bd-highlight">
+            <div className="ms-auto p-2 bd-highlight d-flex align-items-center">
+              <DarkLight_Toggle />
               <Dropdown />
             </div>
           </div>

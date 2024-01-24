@@ -96,7 +96,7 @@ const EditProfile: FC = () => {
           }
         />
         <hr />
-        <button type="submit" className="btn btn-success">
+        <button type="submit" className="btn btn-success mb-3">
           Update Profile
         </button>
         <button type="reset" className="btn btn-light" onClick={() => reset()}>

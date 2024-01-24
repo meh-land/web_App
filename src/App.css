@@ -1,26 +1,45 @@
 :root {
-  /* ===== Colors ===== */
+  --hff: "Heebo", sans-serif;
+  --bff: "Nunito", sans-serif;
+  --tran-03: all 1s ease;
+  --tran-04: all 0.5s ease;
+  --tran-05: all 0.5s ease;
+}
 
+/* Light mode */
+body.light-mode {
   --mc1: #f1f1e6;
   --mc2: #c4cdff;
   --bg: #f3f4f5;
   --bc: #9ba0b8;
-  --hff: "Heebo", sans-serif;
-  --bff: "Nunito", sans-serif;
   --hc: #419771;
   --bs-teal: #2d6250;
 
   --body-color: #e4e9f7;
-  --sidebar-color: #ffffff;
   --primary-color: #695cfe;
   --primary-color-light: #f6f5ff;
   --toggle-color: #ddd;
   --text-color: #707070;
+  --content-bg: #e4e9f7;
+  --input-bg: #e4e9f7;
+}
 
-  /* ====== Transition ====== */
-  --tran-03: all 1s ease;
-  --tran-04: all 0.5s ease;
-  --tran-05: all 0.5s ease;
+/* Dark mode */
+body.dark-mode {
+  --mc1: #f1f1e6;
+  --mc2: #c4cdff;
+  --bg: #212121;
+  --bc: #9ba0b8;
+  --hc: #419771;
+  --bs-teal: #36b64f;
+
+  --body-color: #e4e9f7;
+  --primary-color: #695cfe;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #f3f4f5;
+  --content-bg: #424242;
+  --input-bg: #616161;
 }
 
 body {
@@ -28,10 +47,11 @@ body {
   font-size: 16px;
   color: var(--bs-teal);
   margin: 0 !important;
-  background: var(--bg);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: background 500ms;
+  background: var(--bg);
 }
 
 .bx .bxs-hide,
