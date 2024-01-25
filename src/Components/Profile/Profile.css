@@ -75,9 +75,9 @@
   background: var(--bs-teal) !important;
 }
 
-#profile div .form-control,
-#profile input,
-#profile input::placeholder {
+#AccountSettings div .form-control,
+#AccountSettings input,
+#AccountSettings input::placeholder {
   background: var(--input-bg) !important;
   color: var(--text-color) !important;
 }

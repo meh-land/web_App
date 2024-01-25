@@ -44,7 +44,7 @@ const Profile: FC<ProfileProps> = ({ element }) => {
               <div className="card-header border-bottom mb-3 d-flex d-md-none">
                 <Tabs element={element} />
               </div>
-              <div className="card-body tab-content">
+              <div className="card-body tab-content " id="AccountSettings">
                 {element === "EditProfile" ? (
                   <EditProfile />
                 ) : element === "ChangePassword" ? (
