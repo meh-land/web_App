@@ -75,7 +75,13 @@
   background: var(--bs-teal) !important;
 }
 
-input {
+input,
+div .form-control,
+input::placeholder {
   background: var(--input-bg) !important;
+  color: var(--text-color) !important;
+}
+
+.form-group p {
   color: var(--text-color) !important;
 }
