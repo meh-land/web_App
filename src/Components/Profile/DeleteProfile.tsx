@@ -34,6 +34,7 @@ const DeleteProfile: FC = () => {
   } = useForm<FormData>();
 
   const [PasswordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [currentPassword, setCurrentPassword] = useState<string>("");
 
   const { userData, isLoading, setIsLoading, logged_in, setLoggedIn } =
     useContext(Context);
@@ -45,22 +46,35 @@ const DeleteProfile: FC = () => {
       setIsLoading(true);
       axios
         .delete("http://127.0.0.1:8000/api/delete", {
+          data: {
+            old_password: currentPassword,
+          },
           headers: {
             Authorization: `Bearer ${userData.token}`,
           },
         })
         .then(function (response) {
-          if (response.status === 200) {
+          if (response.data.success === true) {
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Your account has been deleted.",
               icon: "success",
-            }).then((result: { isConfirmed: boolean }) => {
+            }).then((result) => {
               if (result.isConfirmed) {
                 window.location.href = "/Membership";
                 setIsLoading(false);
               }
             });
+          } else if (response.data.success === false) {
+            setIsLoading(false);
+            Swal.fire({
+              icon: "warning",
+              title: response.data.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            console.log(response.data.message);
+            setIsLoading(false);
           } else {
             setErrorText(response.data.msg);
             console.log(response.data.status);
@@ -73,7 +87,8 @@ const DeleteProfile: FC = () => {
           console.error("Error:", error);
         });
     } catch (error) {
-      console.error(error);
+      // Handle any network or request errors here
+      console.error("Error:", error);
       setIsLoading(false);
     }
   };
@@ -128,11 +143,9 @@ const DeleteProfile: FC = () => {
             placeholder="Enter your password"
             {...register("currentPassword", {
               required: true,
+              onChange: (e) => setCurrentPassword(e.target.value),
             })}
           />
-          {/* {errors.currentPassword && (
-            <p className="error-msg">This field is required</p>
-          )} */}
           <i
             onClick={() => handleToggle("NewPassword")}
             className={`bx bxs-${PasswordVisible ? "show" : "hide"} fs-3`}
