@@ -43,27 +43,35 @@ const DeleteProfile: FC = () => {
   const Delete = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.delete("http://127.0.0.1:8000/api/delete", {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      });
-      if (response.data.status === true) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        }).then((result: { isConfirmed: boolean }) => {
-          if (result.isConfirmed) {
-            window.location.href = "/Membership";
+      const response = await axios
+        .delete("http://127.0.0.1:8000/api/delete", {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        })
+        .then(function (response) {
+          if (response.status === 200) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            }).then((result: { isConfirmed: boolean }) => {
+              if (result.isConfirmed) {
+                window.location.href = "/Membership";
+                setIsLoading(false);
+              }
+            });
+          } else {
+            setErrorText(response.data.msg);
+            console.log(response.data.status);
             setIsLoading(false);
+            console.log("Login failed: Unauthorized");
           }
+        })
+        .catch(function (error) {
+          // Handle any network or request errors here
+          console.error("Error:", error);
         });
-      } else {
-        setErrorText(response.data.msg);
-        console.log(response.data.status);
-        setIsLoading(false);
-      }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -120,12 +128,11 @@ const DeleteProfile: FC = () => {
             placeholder="Enter your password"
             {...register("currentPassword", {
               required: true,
-              validate: (value) => value === userData.password,
             })}
           />
-          {errors.currentPassword && (
+          {/* {errors.currentPassword && (
             <p className="error-msg">This field is required</p>
-          )}
+          )} */}
           <i
             onClick={() => handleToggle("NewPassword")}
             className={`bx bxs-${PasswordVisible ? "show" : "hide"} fs-3`}
