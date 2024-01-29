@@ -2,27 +2,17 @@ import { useState, useEffect, useContext } from "react";
 import "./userDropDown.css";
 import { Link } from "react-router-dom";
 import Context from "../../Context";
-import { useCookies } from "react-cookie";
 
 export default function Dropdown() {
   const [active, setActive] = useState(false);
-  const { logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
-  const [cookies, setCookie, removeCookie] = useCookies(["user"]);
-
-  useEffect(() => {
-    if (logged_in === true) {
-      setCookie("rememberMe", true, {
-        path: "/",
-        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-      });
-      for (const key in userData) {
-        setCookie(key, userData[key], {
-          path: "/",
-          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-        });
-      }
-    }
-  }, [userData]);
+  const {
+    logged_in,
+    setLoggedIn,
+    userData,
+    setUserData,
+    setCookie,
+    removeCookie,
+  } = useContext(Context);
 
   const handleClick = () => {
     setActive(!active);

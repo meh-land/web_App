@@ -22,7 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [logged_in, setLoggedIn] = useState<boolean>(false);
   const [sidebar, IsOpen] = useState<boolean>(false);
-  const [cookies, setCookie] = useCookies<string>(["user"]);
+  const [cookies, setCookie, removeCookie] = useCookies<string>(["user"]);
   const [userData, setUserData] = useState<UserData>({
     user_id: "",
     name: "",
@@ -57,6 +57,9 @@ function App() {
         IsOpen,
         isLoading,
         setIsLoading,
+        cookies,
+        setCookie,
+        removeCookie,
       }}
     >
       <div className="main-container">

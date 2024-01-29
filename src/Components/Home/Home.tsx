@@ -7,7 +7,16 @@ import Test from "../TestingInterface/Test";
 import "./Home.css";
 
 const Home: FC = () => {
-  const { isLoading, setIsLoading } = useContext(Context);
+  const {
+    isLoading,
+    setIsLoading,
+    logged_in,
+    setLoggedIn,
+    userData,
+    setUserData,
+    setCookie,
+    removeCookie,
+  } = useContext(Context);
 
   useEffect(() => {
     setIsLoading(true);
@@ -16,6 +25,21 @@ const Home: FC = () => {
       console.log("loading");
     }, 3000);
   }, []);
+
+  useEffect(() => {
+    if (logged_in === true) {
+      setCookie("rememberMe", true, {
+        path: "/",
+        expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      });
+      for (const key in userData) {
+        setCookie(key, userData[key], {
+          path: "/",
+          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        });
+      }
+    }
+  }, [userData]);
 
   return isLoading ? (
     <Loader />

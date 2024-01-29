@@ -36,8 +36,17 @@ const DeleteProfile: FC = () => {
   const [PasswordVisible, setPasswordVisible] = useState<boolean>(false);
   const [currentPassword, setCurrentPassword] = useState<string>("");
 
-  const { userData, isLoading, setIsLoading, logged_in, setLoggedIn } =
-    useContext(Context);
+  const {
+    userData,
+    setUserData,
+    isLoading,
+    setIsLoading,
+    logged_in,
+    setLoggedIn,
+    cookies,
+    setCookie,
+    removeCookie,
+  } = useContext(Context);
 
   const [errortext, setErrorText] = useState<string>("");
 
@@ -62,6 +71,20 @@ const DeleteProfile: FC = () => {
             }).then((result) => {
               if (result.isConfirmed) {
                 window.location.href = "/Membership";
+                setLoggedIn(!logged_in);
+                setCookie("rememberMe", false, {
+                  path: "/",
+                  expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+                });
+                setUserData({
+                  user_id: "",
+                  name: "",
+                  email: "",
+                  password: "",
+                });
+                for (const key in userData) {
+                  removeCookie(key, { path: "/" });
+                }
                 setIsLoading(false);
               }
             });
@@ -73,13 +96,10 @@ const DeleteProfile: FC = () => {
               showConfirmButton: false,
               timer: 2000,
             });
-            console.log(response.data.message);
             setIsLoading(false);
           } else {
             setErrorText(response.data.msg);
-            console.log(response.data.status);
             setIsLoading(false);
-            console.log("Login failed: Unauthorized");
           }
         })
         .catch(function (error) {
