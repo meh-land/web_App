@@ -43,7 +43,7 @@ const DeleteProfile: FC = () => {
   const Delete = async () => {
     try {
       setIsLoading(true);
-      const response = await axios
+      axios
         .delete("http://127.0.0.1:8000/api/delete", {
           headers: {
             Authorization: `Bearer ${userData.token}`,
