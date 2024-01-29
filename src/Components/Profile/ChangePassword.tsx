@@ -15,6 +15,7 @@ interface ChangePasswordProps {
 const ChangePassword: FC = () => {
   const { userData, setUserData, setIsLoading } = useContext(Context);
   const [newPassword, setNewPassword] = useState<string>("");
+  const [currentPassword, setCurrentPassword] = useState<string>("");
   const [errortext, setErrorText] = useState<string>("");
   const [currentPasswordVisible, setCurrentPasswordVisible] =
     useState<boolean>(false);
@@ -56,6 +57,7 @@ const ChangePassword: FC = () => {
           "http://127.0.0.1:8000/api/update",
           {
             password: newPassword,
+            old_password: currentPassword,
           },
           {
             headers: {
@@ -64,7 +66,7 @@ const ChangePassword: FC = () => {
           }
         )
         .then(function (response) {
-          if (response.status === 200) {
+          if (response.data.success === true) {
             Swal.fire({
               icon: "success",
               title: "Your work has been saved",
@@ -77,6 +79,15 @@ const ChangePassword: FC = () => {
               path: "/",
               expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
             });
+          } else if (response.data.success === false) {
+            Swal.fire({
+              icon: "warning",
+              title: response.data.message,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+            console.log(response.data.message);
+            setIsLoading(false);
           } else {
             setErrorText(response.data.msg);
             console.log(response.data.status);
@@ -109,6 +120,7 @@ const ChangePassword: FC = () => {
             placeholder="Enter your old password"
             {...register("currentPassword", {
               required: true,
+              onChange: (e) => setCurrentPassword(e.target.value),
             })}
           />
           <i
