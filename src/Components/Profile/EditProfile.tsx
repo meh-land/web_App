@@ -25,14 +25,10 @@ const EditProfile: FC = () => {
   const handleEditPress = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "http://127.0.0.1/apicrud/editusers.php",
-        {
-          fullname: userData.name,
-          email: userData.email,
-          user_id: userData.user_id,
-        }
-      );
+      const response = await axios.put("http://127.0.0.1:8000/api/update", {
+        fullname: userData.name,
+        email: userData.email,
+      });
 
       if (response.data.status === true) {
         setIsLoading(false);

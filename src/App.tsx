@@ -15,6 +15,7 @@ interface UserData {
   name: string;
   email: string;
   password: string;
+  token: string;
 }
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
     name: "",
     email: "",
     password: "",
+    token: "",
   });
 
   let navigate = useNavigate();

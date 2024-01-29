@@ -51,17 +51,19 @@ const Signup: FC<Props> = ({ handleClick }) => {
   const signup = async () => {
     try {
       axios
-        .post(`http://127.0.0.1/apicrud/addusers.php`, {
-          fullname: userData.name,
+        .post(`http://127.0.0.1:8000/api/register`, {
+          name: userData.name,
           email: userData.email,
           password: userData.password,
         })
         .then((res) => {
           setLoggedIn(res.data.status);
+          console.log(res.data);
           setUserData({
             ...userData,
-            user_id: res.data.insertid,
+            token: res.data.token,
           });
+          console.log(userData);
 
           navigate(`/`);
           console.log(userData);
