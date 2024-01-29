@@ -57,12 +57,9 @@ const Signup: FC<Props> = ({ handleClick }) => {
           password: userData.password,
         })
         .then((res) => {
-          setLoggedIn(res.data.status);
-          console.log(res.data);
-          setUserData({
-            ...userData,
-            token: res.data.token,
-          });
+          //setLoggedIn(res.data.status);
+          const user = res.data.user;
+          setUserData(user);
           console.log(userData);
 
           navigate(`/`);

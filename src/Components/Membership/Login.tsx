@@ -58,9 +58,8 @@ const Login: FC<Props> = ({ handleClick }) => {
         password: userInfo.password,
       })
       .then((res) => {
-        setLoggedIn(res.data.status);
+        //setLoggedIn(res.data.status);
         const user = res.data.user;
-        console.log(res.data);
         setUserData(user);
         console.log(userData);
         navigate(`/`);
