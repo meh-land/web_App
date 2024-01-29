@@ -25,38 +25,45 @@ const EditProfile: FC = () => {
   const handleEditPress = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.put(
-        "http://127.0.0.1:8000/api/update",
-        {
-          fullname: userData.name,
-          email: userData.email,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${userData.token}`,
+      axios
+        .put(
+          "http://127.0.0.1:8000/api/update",
+          {
+            name: userData.name,
+            email: userData.email,
           },
-        }
-      );
-
-      if (response.data.status === true) {
-        setIsLoading(false);
-        Swal.fire({
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
+          {
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          }
+        )
+        .then(function (response) {
+          if (response.status === 200) {
+            setIsLoading(false);
+            Swal.fire({
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            for (const key in userData) {
+              setCookie(key, userData[key], {
+                path: "/",
+                expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+              });
+            }
+          } else {
+            setErrorText(response.data.msg);
+            console.log(response.data.status);
+            setIsLoading(false);
+            console.log("Login failed: Unauthorized");
+          }
+        })
+        .catch(function (error) {
+          // Handle any network or request errors here
+          console.error("Error:", error);
         });
-        for (const key in userData) {
-          setCookie(key, userData[key], {
-            path: "/",
-            expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-          });
-        }
-      } else {
-        setErrorText(response.data.msg);
-        console.log(response.data.status);
-        setIsLoading(false);
-      }
     } catch (error) {
       console.error(error);
     }

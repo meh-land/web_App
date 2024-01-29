@@ -113,7 +113,7 @@ const DeleteProfile: FC = () => {
         </div>
         <hr />
 
-        {/*< div className="d-flex justify-content-center align-items-center form-control mt-3">
+        <div className="d-flex justify-content-center align-items-center form-control mt-3">
           <input
             type={PasswordVisible ? "text" : "password"}
             className="form-control border-0"
@@ -130,7 +130,7 @@ const DeleteProfile: FC = () => {
             onClick={() => handleToggle("NewPassword")}
             className={`bx bxs-${PasswordVisible ? "show" : "hide"} fs-3`}
           ></i>
-        </div> */}
+        </div>
 
         <hr />
         <button className="btn btn-danger" type="submit">

@@ -51,36 +51,43 @@ const ChangePassword: FC = () => {
     try {
       setIsLoading(true);
 
-      const response = await axios.put(
-        "http://127.0.0.1:8000/api/update",
-        {
-          password: newPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${userData.token}`,
+      axios
+        .put(
+          "http://127.0.0.1:8000/api/update",
+          {
+            password: newPassword,
           },
-        }
-      );
-      console.log(newPassword);
-      if (response.data.status === true) {
-        Swal.fire({
-          icon: "success",
-          title: "Your work has been saved",
-          showConfirmButton: false,
-          timer: 1500,
+          {
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          }
+        )
+        .then(function (response) {
+          if (response.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            setIsLoading(false);
+            setUserData({ ...userData, password: newPassword });
+            setCookie("password", newPassword, {
+              path: "/",
+              expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+            });
+          } else {
+            setErrorText(response.data.msg);
+            console.log(response.data.status);
+            setIsLoading(false);
+            console.log("Login failed: Unauthorized");
+          }
+        })
+        .catch(function (error) {
+          // Handle any network or request errors here
+          console.error("Error:", error);
         });
-        setIsLoading(false);
-        setUserData({ ...userData, password: newPassword });
-        setCookie("password", newPassword, {
-          path: "/",
-          expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-        });
-      } else {
-        setErrorText(response.data.msg);
-        console.log(response.data.status);
-        setIsLoading(false);
-      }
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -95,14 +102,13 @@ const ChangePassword: FC = () => {
       <h6>Change Password</h6>
       <hr />
       <form onSubmit={handleSubmit(handlePasswordChange)}>
-        {/*  <div className="d-flex justify-content-center align-items-center form-control mt-1">
+        <div className="d-flex justify-content-center align-items-center form-control mt-1">
           <input
             type={currentPasswordVisible ? "text" : "password"}
             className="form-control border-0"
             placeholder="Enter your old password"
             {...register("currentPassword", {
               required: true,
-              validate: (value) => value === userData.password,
             })}
           />
           <i
@@ -111,10 +117,10 @@ const ChangePassword: FC = () => {
               currentPasswordVisible ? "show" : "hide"
             } fs-3`}
           ></i>
-        </div> */}
-        {errors.currentPassword && (
+        </div>
+        {/* {errors.currentPassword && (
           <p className="error-msg">This field is required</p>
-        )}
+        )} */}
         <div className="d-flex justify-content-center align-items-center form-control mt-3">
           <input
             type={newPasswordVisible ? "text" : "password"}
