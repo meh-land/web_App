@@ -51,11 +51,15 @@ const ChangePassword: FC = () => {
     try {
       setIsLoading(true);
 
-      const response = await axios.post(
-        "http://127.0.0.1/apicrud/changePassword.php",
+      const response = await axios.put(
+        "http://127.0.0.1:8000/api/update",
         {
           password: newPassword,
-          user_id: userData.user_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
         }
       );
       console.log(newPassword);
@@ -91,7 +95,7 @@ const ChangePassword: FC = () => {
       <h6>Change Password</h6>
       <hr />
       <form onSubmit={handleSubmit(handlePasswordChange)}>
-        <div className="d-flex justify-content-center align-items-center form-control mt-1">
+        {/*  <div className="d-flex justify-content-center align-items-center form-control mt-1">
           <input
             type={currentPasswordVisible ? "text" : "password"}
             className="form-control border-0"
@@ -107,7 +111,7 @@ const ChangePassword: FC = () => {
               currentPasswordVisible ? "show" : "hide"
             } fs-3`}
           ></i>
-        </div>
+        </div> */}
         {errors.currentPassword && (
           <p className="error-msg">This field is required</p>
         )}

@@ -25,10 +25,18 @@ const EditProfile: FC = () => {
   const handleEditPress = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.put("http://127.0.0.1:8000/api/update", {
-        fullname: userData.name,
-        email: userData.email,
-      });
+      const response = await axios.put(
+        "http://127.0.0.1:8000/api/update",
+        {
+          fullname: userData.name,
+          email: userData.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
 
       if (response.data.status === true) {
         setIsLoading(false);
