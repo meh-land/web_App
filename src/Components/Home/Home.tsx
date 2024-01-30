@@ -26,7 +26,7 @@ const Home: FC = () => {
     }, 3000);
   }, []);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (logged_in === true) {
       setCookie("rememberMe", true, {
         path: "/",
@@ -39,7 +39,7 @@ const Home: FC = () => {
         });
       }
     }
-  }, [userData]);
+  }, [userData]); */
 
   return isLoading ? (
     <Loader />

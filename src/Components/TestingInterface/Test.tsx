@@ -2,18 +2,10 @@ import axios from "axios";
 import { FC, useState } from "react";
 
 const Test: FC = () => {
-  const [status, setStatus] = useState<string>("");
-
-  const handleClick = (state: string): void => {
-    // Set the status state and then call test function
-    setStatus(state);
-    test();
-  };
-
-  const test = (): void => {
+  const test = (state: string): void => {
     axios
-      .post(`http://127.0.0.1/apicrud/test.php`, {
-        status: status,
+      .get(`http://127.0.0.1:8000/api/test`, {
+        params: { state: state },
       })
       .then((res) => {
         console.log(res.data);
@@ -28,35 +20,35 @@ const Test: FC = () => {
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => handleClick("forward")}
+        onClick={() => test("forward")}
       >
         Forward
       </button>
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => handleClick("backward")}
+        onClick={() => test("backward")}
       >
         Backward
       </button>
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => handleClick("right")}
+        onClick={() => test("right")}
       >
         Right
       </button>
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => handleClick("left")}
+        onClick={() => test("left")}
       >
         Left
       </button>
       <button
         type="button"
         className="btn btn-danger"
-        onClick={() => handleClick("stop")}
+        onClick={() => test("stop")}
       >
         Stop
       </button>
