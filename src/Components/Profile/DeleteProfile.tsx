@@ -37,6 +37,7 @@ const DeleteProfile: FC = () => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
 
   const {
+    IP,
     userData,
     setUserData,
     isLoading,
@@ -54,7 +55,7 @@ const DeleteProfile: FC = () => {
     try {
       setIsLoading(true);
       axios
-        .delete("http://127.0.0.1:8000/api/delete", {
+        .delete(`http://${IP}:8000/api/delete`, {
           data: {
             old_password: currentPassword,
           },
