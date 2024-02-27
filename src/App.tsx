@@ -23,6 +23,7 @@ function App() {
   const [logged_in, setLoggedIn] = useState<boolean>(false);
   const [sidebar, IsOpen] = useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies<string>(["user"]);
+  const [isChecked, setIsChecked] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserData>({
     user_id: "",
     name: "",
@@ -60,6 +61,8 @@ function App() {
         cookies,
         setCookie,
         removeCookie,
+        isChecked,
+        setIsChecked,
       }}
     >
       <div className="main-container">

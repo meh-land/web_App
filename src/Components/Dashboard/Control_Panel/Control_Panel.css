@@ -1,0 +1,69 @@
+.control-panel button {
+  position: relative;
+  padding: 15px;
+  width: 50px;
+  height: 50px;
+  background: #1964d2;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.2rem;
+  color: #e0ffff;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.control-panel button:hover {
+  background: #053692;
+  color: #e0ffff;
+}
+
+.control-panel button:active {
+  transform: scale(0.95);
+}
+
+.control-panel .form-wrapper {
+  align-items: center;
+  transition: 1s ease-in-out;
+}
+
+.control-panel .input-group {
+  position: relative;
+  display: flex;
+  border-bottom: 2px solid #fff;
+  flex-wrap: nowrap;
+  width: 10%;
+  align-items: end !important;
+}
+
+.control-panel .input-group label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: bolder;
+  color: var(--logo);
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.control-panel .input-group input {
+  width: 320px;
+  height: 30px;
+  font-size: 16px;
+  color: var(--logo);
+  padding: 0 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.control-panel .form-wrapper input:focus + label,
+.control-panel .form-wrapper input:not(:placeholder-shown) + label,
+.control-panel .form-wrapper input:active + label {
+  top: 10px;
+}

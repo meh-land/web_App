@@ -1,10 +1,11 @@
-import React, { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect } from "react";
 import Context from "../../Context";
 import Loader from "./../Loader/Loader";
 import Path from "../Path/Path";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Home: FC = () => {
   const {
@@ -26,7 +27,7 @@ const Home: FC = () => {
     }, 3000);
   }, []);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     if (logged_in === true) {
       setCookie("rememberMe", true, {
         path: "/",
@@ -39,15 +40,14 @@ const Home: FC = () => {
         });
       }
     }
-  }, [userData]); */
+  }, [userData]);
 
   return isLoading ? (
     <Loader />
   ) : (
     <div className="main_content dashboard_part">
       <Navbar />
-      <Path title="Home" />
-      <Test />
+      <Dashboard />
     </div>
   );
 };

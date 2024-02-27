@@ -1,0 +1,42 @@
+.form-wrapper {
+  align-items: center;
+  transition: 1s ease-in-out;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  border-bottom: 2px solid var(--logo);
+  flex-wrap: nowrap;
+  width: 10%;
+  align-items: end !important;
+}
+
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: bolder;
+  color: var(--logo);
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-group input {
+  width: 320px;
+  height: 30px;
+  font-size: 16px;
+  color: var(--logo);
+  padding: 0 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.form-wrapper input:focus + label,
+.form-wrapper input:not(:placeholder-shown) + label,
+.form-wrapper input:active + label {
+  top: 10px;
+}

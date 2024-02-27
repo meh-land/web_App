@@ -1,0 +1,18 @@
+.card {
+  background-color: var(--content-bg);
+  box-shadow: 0rem 0rem 2rem rgba(28, 25, 85, 0.08);
+  border-radius: 1.25rem;
+  border: none;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
+}
+
+.card-header {
+  border-bottom: 0.063rem solid #f3f3f3;
+  border-radius: 1.25rem 1.25rem 0rem 0rem !important;
+  padding: 1.063rem 1.25rem;
+}
+
+.card-body {
+  padding: 1.25rem;
+}

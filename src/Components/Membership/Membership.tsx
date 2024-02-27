@@ -47,7 +47,7 @@ const Membership: FC = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <div className="app">
+    <div className="Membership">
       <div
         ref={boxRef}
         className={action === "login" ? "wrapper" : "wrapper active"}

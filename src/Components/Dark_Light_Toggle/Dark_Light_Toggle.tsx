@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./DarkLight_Toggle.css";
+import Context from "../../Context";
 
 export default function DarkLight_Toggle() {
-  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const { isChecked, setIsChecked } = useContext(Context);
 
   const handleClick = () => {
-    setIsChecked((isChecked) => !isChecked);
+    setIsChecked((isChecked: boolean) => !isChecked);
   };
 
   useEffect(() => {

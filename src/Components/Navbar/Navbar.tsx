@@ -19,7 +19,7 @@ const Navbar: FC = () => {
     <div className="container-fluid g-0">
       <div className="row">
         <div className="col-lg-12 p-0">
-          <div className="header_iner d-flex bd-highlight mb-3 align-items-center">
+          <div className="header_iner d-flex bd-highlight mb-0 align-items-center">
             <div className="p-2 bd-highlight d-lg-none">
               <CircleBtn clickHandler={OpenSidebar} active={sidebar} />
             </div>
