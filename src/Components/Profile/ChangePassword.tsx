@@ -13,7 +13,7 @@ interface ChangePasswordProps {
 }
 
 const ChangePassword: FC = () => {
-  const { userData, setUserData, setIsLoading } = useContext(Context);
+  const {IP, userData, setUserData, setIsLoading } = useContext(Context);
   const [newPassword, setNewPassword] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [errortext, setErrorText] = useState<string>("");
@@ -54,7 +54,7 @@ const ChangePassword: FC = () => {
 
       axios
         .put(
-          "http://127.0.0.1:8000/api/update",
+          `http://${IP}:8000/api/update`,
           {
             password: newPassword,
             old_password: currentPassword,

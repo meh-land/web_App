@@ -1,10 +1,13 @@
 import axios from "axios";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
+import Context from "../../Context";
 
 const Test: FC = () => {
+  const {IP} = useContext(Context);
+  
   const test = (state: string): void => {
     axios
-      .get(`http://127.0.0.1:8000/api/test`, {
+      .get(`http://${IP}:8000/api/test`, {
         params: { state: state },
       })
       .then((res) => {
