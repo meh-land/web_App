@@ -1,11 +1,9 @@
 import { FC, useContext, useEffect } from "react";
 import Context from "../../Context";
 import Loader from "./../Loader/Loader";
-import Path from "../Path/Path";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
-import Dashboard from "../Dashboard/Dashboard";
 
 const Home: FC = () => {
   const {
@@ -47,7 +45,7 @@ const Home: FC = () => {
   ) : (
     <div className="main_content dashboard_part">
       <Navbar />
-      <Dashboard />
+      <Test />
     </div>
   );
 };

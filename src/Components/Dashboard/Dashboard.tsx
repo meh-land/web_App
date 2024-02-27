@@ -5,10 +5,13 @@ import MotorsSpeed from "./Motors_Speed/MotorsSpeed";
 import Status from "./Status/Status";
 import Loggers from "./Loggers/Loggers";
 import Header from "./Header/Header";
+import Navbar from "../Navbar/Navbar";
 
 const Dashboard: FC = () => {
   return (
-    <>
+    <div className="main_content dashboard_part">
+      <Navbar />
+
       <Header />
       <div className="mx-4">
         <div className="row">
@@ -29,7 +32,7 @@ const Dashboard: FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Dashboard;

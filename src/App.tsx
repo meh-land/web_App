@@ -9,6 +9,8 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import "./App.css";
 import Footer from "./Components/Footer/Footer";
 import { useCookies } from "react-cookie";
+import Robots from "./Components/Robots/Robots";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 interface UserData {
   user_id: number | string;
@@ -106,6 +108,26 @@ function App() {
                 <MobSidebar />
                 <Sidebar />
                 <Profile element="DeleteAccount" />
+              </>
+            }
+          />
+          <Route
+            path="/robots"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Robots />
+              </>
+            }
+          />
+          <Route
+            path="/robots/:id/dashboard"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Dashboard />
               </>
             }
           />
