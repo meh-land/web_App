@@ -75,7 +75,7 @@ const SpeedTimeChart = () => {
       });
 
       setSeries(newSeries);
-    }, 4000); // Update speeds every 2 seconds
+    }, 2000); // Update speeds every 2 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [series]);
