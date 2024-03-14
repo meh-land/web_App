@@ -4,6 +4,7 @@ import Loader from "./../Loader/Loader";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
+import Flow from "../CreateMaps/CreateMaps";
 
 const Home: FC = () => {
   const {
@@ -45,7 +46,8 @@ const Home: FC = () => {
   ) : (
     <div className="main_content dashboard_part">
       <Navbar />
-      <Test />
+      {/* <Test /> */}
+      <Flow />
     </div>
   );
 };
