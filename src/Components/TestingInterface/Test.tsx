@@ -3,11 +3,11 @@ import { FC, useContext, useState } from "react";
 import Context from "../../Context";
 
 const Test: FC = () => {
-  const {IP} = useContext(Context);
-  
+  const { WEB_IP } = useContext(Context);
+
   const test = (state: string): void => {
     axios
-      .get(`http://${IP}:8000/api/test`, {
+      .get(`http://${WEB_IP}:8000/api/test`, {
         params: { state: state },
       })
       .then((res) => {

@@ -1,12 +1,11 @@
 import React, { FC, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import Context from "../../../Context"
+import Context from "../../../Context";
 
 const PositionControl: FC = () => {
   const attributes = ["x", "y", "theta"];
-  const {IP} = useContext(Context);
- 
+  const { DASHBOARD_IP } = useContext(Context);
 
   const {
     register,
@@ -29,7 +28,7 @@ const PositionControl: FC = () => {
 
   const Pose_Control = () => {
     axios
-      .post(`http://${IP}:8000/api/position_test`, {
+      .post(`http://${DASHBOARD_IP}:8000/api/position_test`, {
         x: params.x,
         y: params.y,
         theta: params.theta,

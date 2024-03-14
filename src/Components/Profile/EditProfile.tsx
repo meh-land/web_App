@@ -11,7 +11,7 @@ interface FormData {
   email: string;
 }
 const EditProfile: FC = () => {
-  const {IP, userData, setUserData, setIsLoading } = useContext(Context);
+  const { WEB_IP, userData, setUserData, setIsLoading } = useContext(Context);
   const [errortext, setErrorText] = useState<string>("");
   const [cookies, setCookie] = useCookies<string>(["user"]);
 
@@ -27,7 +27,7 @@ const EditProfile: FC = () => {
       setIsLoading(true);
       axios
         .put(
-          `http://${IP}:8000/api/update`,
+          `http://${WEB_IP}:8000/api/update`,
           {
             name: userData.name,
             email: userData.email,

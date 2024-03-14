@@ -16,7 +16,8 @@ interface Props {
 }
 
 const Signup: FC<Props> = ({ handleClick }) => {
-  const {IP, logged_in, setLoggedIn, userData, setUserData } = useContext(Context);
+  const { WEB_IP, logged_in, setLoggedIn, userData, setUserData } =
+    useContext(Context);
   const [newPasswordVisible, setNewPasswordVisible] = useState<boolean>(false);
   const [confirmNewPasswordVisible, setConfirmNewPasswordVisible] =
     useState<boolean>(false);
@@ -51,7 +52,7 @@ const Signup: FC<Props> = ({ handleClick }) => {
   const signup = async () => {
     try {
       axios
-        .post(`http://${IP}:8000/api/register`, {
+        .post(`http://${WEB_IP}:8000/api/register`, {
           name: userData.name,
           email: userData.email,
           password: userData.password,

@@ -21,7 +21,9 @@ interface UserData {
 }
 
 function App() {
-  const IP = process.env.REACT_APP_IP;
+  const WEB_IP = process.env.REACT_APP_IP;
+  const DASHBOARD_IP = process.env.REACT_APP_IP;
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [logged_in, setLoggedIn] = useState<boolean>(false);
   const [sidebar, IsOpen] = useState<boolean>(false);
@@ -53,7 +55,8 @@ function App() {
   return (
     <Context.Provider
       value={{
-        IP,
+        WEB_IP,
+        DASHBOARD_IP,
         logged_in,
         setLoggedIn,
         userData,

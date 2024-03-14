@@ -14,7 +14,7 @@ interface Robot {
 }
 
 export default function Robots() {
-  const { isChecked, userData, IP, isLoading, setIsLoading } =
+  const { isChecked, userData, WEB_IP, isLoading, setIsLoading } =
     useContext(Context);
   const [robots, setRobots] = useState<Robot[]>([]);
 
@@ -22,7 +22,7 @@ export default function Robots() {
     setIsLoading(true);
 
     axios
-      .get(`http://${IP}:8000/api/getRobots`, {
+      .get(`http://${WEB_IP}:8000/api/getRobots`, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
@@ -60,7 +60,7 @@ export default function Robots() {
         }
         return axios
           .post(
-            `http://${IP}:8000/api/createRobot`,
+            `http://${WEB_IP}:8000/api/createRobot`,
             { name: name },
             {
               headers: {
@@ -114,7 +114,7 @@ export default function Robots() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://${IP}:8000/api/deleteRobot`, {
+          .delete(`http://${WEB_IP}:8000/api/deleteRobot`, {
             params: { id: Robot_id },
             headers: {
               Authorization: `Bearer ${userData.token}`,

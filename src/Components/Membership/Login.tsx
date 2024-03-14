@@ -15,7 +15,7 @@ interface Props {
 
 const Login: FC<Props> = ({ handleClick }) => {
   const {
-    IP,
+    WEB_IP,
     logged_in,
     setLoggedIn,
     userData,
@@ -49,13 +49,12 @@ const Login: FC<Props> = ({ handleClick }) => {
   const handleToggle = () => {
     setPasswordVisible(!PasswordVisible);
   };
-  
 
   const login = () => {
     setIsLoading(true);
 
     axios
-      .post(`http://${IP}:8000/api/login`, {
+      .post(`http://$WEB_IP}:8000/api/login`, {
         email: userInfo.email,
         password: userInfo.password,
       })

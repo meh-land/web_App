@@ -1,11 +1,11 @@
 import React, { FC, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import Context from "../../../Context"
+import Context from "../../../Context";
 
 const PIDControl: FC = () => {
   const attributes = ["kp", "ki", "kd"];
-    const {IP} = useContext(Context);
+  const { DASHBOARD_IP } = useContext(Context);
 
   const {
     register,
@@ -28,7 +28,7 @@ const PIDControl: FC = () => {
 
   const PID_Control = () => {
     axios
-      .post(`http://${IP}:8000/api/PID_test`, {
+      .post(`http://${DASHBOARD_IP}:8000/api/PID_test`, {
         kp: params.kp,
         ki: params.ki,
         kd: params.kd,
