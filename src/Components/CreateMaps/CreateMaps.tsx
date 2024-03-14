@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -89,6 +89,43 @@ const Flow: React.FC = () => {
     },
     [reactFlowInstance, setNodes]
   );
+
+  useEffect(() => {
+    const handleDeleteKeyPress = (event: KeyboardEvent) => {
+      if (event.key === "Delete") {
+        // Start by filtering out selected nodes
+        const nodesToDelete = nodes.filter((node) => node.selected);
+        const edgesToDelete = edges.filter((edge) => edge.selected);
+
+        if (nodesToDelete.length > 0) {
+          // If there are nodes to delete, remove them and any edges connected to them
+          const nodeIdsToDelete = nodesToDelete.map((node) => node.id);
+          setNodes((prevNodes) =>
+            prevNodes.filter((node) => !nodeIdsToDelete.includes(node.id))
+          );
+          // Remove edges that are connected to the deleted nodes, plus any selected edges
+          setEdges((prevEdges) =>
+            prevEdges.filter(
+              (edge) =>
+                !nodeIdsToDelete.includes(edge.source) &&
+                !nodeIdsToDelete.includes(edge.target) &&
+                !edgesToDelete.map((e) => e.id).includes(edge.id)
+            )
+          );
+        } else if (edgesToDelete.length > 0) {
+          // If no nodes are selected but some edges are, delete those selected edges
+          const edgeIdsToDelete = edgesToDelete.map((edge) => edge.id);
+          setEdges((prevEdges) =>
+            prevEdges.filter((edge) => !edgeIdsToDelete.includes(edge.id))
+          );
+        }
+      }
+    };
+
+    // Add and remove the event listener
+    document.addEventListener("keydown", handleDeleteKeyPress);
+    return () => document.removeEventListener("keydown", handleDeleteKeyPress);
+  }, [nodes, edges, setNodes, setEdges]);
 
   const onNodeClick = useCallback(
     (event: React.MouseEvent, node: Node) => {
