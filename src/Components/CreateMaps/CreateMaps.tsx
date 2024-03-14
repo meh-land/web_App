@@ -13,7 +13,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import Nodes from "./nodes";
-
+import Swal from "sweetalert2";
 import "./CreateMaps.css";
 
 interface InitialNode {
@@ -128,8 +128,20 @@ const Flow: React.FC = () => {
   }, [nodes, edges, setNodes, setEdges]);
 
   const onNodeClick = useCallback(
-    (event: React.MouseEvent, node: Node) => {
-      const newLabel = window.prompt("Enter new label:", node.data.label);
+    async (event: React.MouseEvent, node: Node) => {
+      const { value: newLabel } = await Swal.fire({
+        title: "Enter new label",
+        input: "text",
+        inputLabel: "New label",
+        inputValue: node.data.label,
+        showCancelButton: true,
+        inputValidator: (value) => {
+          if (!value) {
+            return "You need to write something!";
+          }
+        },
+      });
+
       if (newLabel) {
         setNodes((nds) => {
           const updatedNodes = nds.map((n) =>
@@ -167,7 +179,7 @@ const Flow: React.FC = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            onNodeClick={onNodeClick}
+            onNodeDoubleClick={onNodeClick}
             fitView
           >
             <Controls />
