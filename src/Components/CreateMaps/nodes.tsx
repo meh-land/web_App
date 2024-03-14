@@ -9,6 +9,16 @@ const Nodes: React.FC = () => {
 
   return (
     <aside>
+      <div>
+        <h5>Instructions:</h5>
+        <ul>
+          <li>Double click node to change its name.</li>
+          <li>
+            Click node and press delete from keyboard to delete node or
+            connection.
+          </li>
+        </ul>
+      </div>
       <div className="description">
         You can drag these nodes to the pane on the right.
       </div>
