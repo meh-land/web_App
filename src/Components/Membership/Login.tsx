@@ -54,7 +54,7 @@ const Login: FC<Props> = ({ handleClick }) => {
     setIsLoading(true);
 
     axios
-      .post(`http://$WEB_IP}:8000/api/login`, {
+      .post(`http://${WEB_IP}:8000/api/login`, {
         email: userInfo.email,
         password: userInfo.password,
       })

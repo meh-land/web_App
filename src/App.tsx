@@ -11,6 +11,8 @@ import Footer from "./Components/Footer/Footer";
 import { useCookies } from "react-cookie";
 import Robots from "./Components/Robots/Robots";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import Flow from "./Components/Maps/CreateMaps";
+import Maps from "./Components/Maps/Maps";
 
 interface UserData {
   user_id: number | string;
@@ -131,6 +133,26 @@ function App() {
                 <MobSidebar />
                 <Sidebar />
                 <Dashboard />
+              </>
+            }
+          />
+          <Route
+            path="/maps"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Maps />
+              </>
+            }
+          />
+          <Route
+            path="/maps/newMap"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Flow />
               </>
             }
           />

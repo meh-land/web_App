@@ -54,6 +54,12 @@ const Sidebar: FC = () => {
                 <span className="text nav-text">Robots</span>
               </Link>
             </li>
+            <li>
+              <Link to="/maps">
+                <i className="bx bx-map icon"></i>
+                <span className="text nav-text">Maps</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

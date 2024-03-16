@@ -15,6 +15,7 @@ import "reactflow/dist/style.css";
 import Nodes from "./nodes";
 import Swal from "sweetalert2";
 import "./CreateMaps.css";
+import Navbar from "../Navbar/Navbar";
 
 interface InitialNode {
   id: string;
@@ -177,52 +178,55 @@ const Flow: React.FC = () => {
   };
 
   return (
-    <div className="card mt-4 mx-4" id="Map">
-      <div className="card-header d-flex justify-content-between align-items-center">
-        <div>
-          {isEditingHeader ? (
-            <input
-              type="text"
-              value={headerTitle}
-              onChange={handleHeaderChange}
-              onBlur={handleHeaderBlur}
-              autoFocus // Automatically focus the input when it appears
-              className="form-control" // You might want to adjust the styling
-            />
-          ) : (
-            <h5 onDoubleClick={handleHeaderDoubleClick}>{headerTitle}</h5>
-          )}
+    <div className="main_content dashboard_part">
+      <Navbar />
+      <div className="card mt-4 mx-4" id="Map">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <div>
+            {isEditingHeader ? (
+              <input
+                type="text"
+                value={headerTitle}
+                onChange={handleHeaderChange}
+                onBlur={handleHeaderBlur}
+                autoFocus // Automatically focus the input when it appears
+                className="form-control" // You might want to adjust the styling
+              />
+            ) : (
+              <h5 onDoubleClick={handleHeaderDoubleClick}>{headerTitle}</h5>
+            )}
+          </div>
+          <div>
+            <button className="btn btn-success">Save</button>
+          </div>
         </div>
-        <div>
-          <button className="btn btn-success">Save</button>
-        </div>
-      </div>
-      <div className="card-body">
-        <div className="dndflow">
-          <ReactFlowProvider>
-            <div
-              className="reactflow-wrapper"
-              style={flowWrapperStyle}
-              ref={reactFlowWrapper}
-            >
-              <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onInit={setReactFlowInstance}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                onNodeDoubleClick={onNodeClick}
-                fitView
+        <div className="card-body">
+          <div className="dndflow">
+            <ReactFlowProvider>
+              <div
+                className="reactflow-wrapper"
+                style={flowWrapperStyle}
+                ref={reactFlowWrapper}
               >
-                <Controls />
-                <Background />
-              </ReactFlow>
-            </div>
-            <Nodes />
-          </ReactFlowProvider>
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  onConnect={onConnect}
+                  onInit={setReactFlowInstance}
+                  onDrop={onDrop}
+                  onDragOver={onDragOver}
+                  onNodeDoubleClick={onNodeClick}
+                  fitView
+                >
+                  <Controls />
+                  <Background />
+                </ReactFlow>
+              </div>
+              <Nodes />
+            </ReactFlowProvider>
+          </div>
         </div>
       </div>
     </div>
