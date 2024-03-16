@@ -41,6 +41,20 @@ const Flow: React.FC = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
+  const [isEditingHeader, setIsEditingHeader] = useState(false);
+  const [headerTitle, setHeaderTitle] = useState("Untitled");
+
+  const handleHeaderDoubleClick = () => {
+    setIsEditingHeader(true);
+  };
+
+  const handleHeaderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setHeaderTitle(event.target.value);
+  };
+
+  const handleHeaderBlur = () => {
+    setIsEditingHeader(false);
+  };
   // Use useCallback for onConnect to ensure the function is not recreated on every render
   const onConnect = useCallback((params: Edge | Connection) => {
     setEdges((eds) => {
@@ -163,31 +177,54 @@ const Flow: React.FC = () => {
   };
 
   return (
-    <div className="dndflow">
-      <ReactFlowProvider>
-        <div
-          className="reactflow-wrapper"
-          style={flowWrapperStyle}
-          ref={reactFlowWrapper}
-        >
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            onNodeDoubleClick={onNodeClick}
-            fitView
-          >
-            <Controls />
-            <Background />
-          </ReactFlow>
+    <div className="card mt-4 mx-4" id="Map">
+      <div className="card-header d-flex justify-content-between align-items-center">
+        <div>
+          {isEditingHeader ? (
+            <input
+              type="text"
+              value={headerTitle}
+              onChange={handleHeaderChange}
+              onBlur={handleHeaderBlur}
+              autoFocus // Automatically focus the input when it appears
+              className="form-control" // You might want to adjust the styling
+            />
+          ) : (
+            <h5 onDoubleClick={handleHeaderDoubleClick}>{headerTitle}</h5>
+          )}
         </div>
-        <Nodes />
-      </ReactFlowProvider>
+        <div>
+          <button className="btn btn-success">Save</button>
+        </div>
+      </div>
+      <div className="card-body">
+        <div className="dndflow">
+          <ReactFlowProvider>
+            <div
+              className="reactflow-wrapper"
+              style={flowWrapperStyle}
+              ref={reactFlowWrapper}
+            >
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onInit={setReactFlowInstance}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                onNodeDoubleClick={onNodeClick}
+                fitView
+              >
+                <Controls />
+                <Background />
+              </ReactFlow>
+            </div>
+            <Nodes />
+          </ReactFlowProvider>
+        </div>
+      </div>
     </div>
   );
 };

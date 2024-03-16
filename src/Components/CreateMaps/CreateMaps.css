@@ -9,7 +9,7 @@
   border-right: 1px solid #eee;
   padding: 15px 10px;
   font-size: 12px;
-  background: #fcfcfc;
+  background: var(--bg);
 }
 
 .dndflow aside .description {
@@ -54,4 +54,13 @@
     width: 20%;
     max-width: 250px;
   }
+}
+
+#Map {
+  background-color: var(--content-bg);
+  box-shadow: 0rem 0rem 2rem rgba(28, 25, 85, 0.08);
+  border-radius: 1.25rem;
+  border: none;
+  margin-bottom: 1.25rem;
+  color: var(--text-color);
 }
