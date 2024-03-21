@@ -43,7 +43,7 @@ const VelocityControl: FC = () => {
 
   return (
     <div className="form-wrapper">
-      <h5>Velocity Control:</h5>
+      <h6>Velocity Control:</h6>
 
       <form
         className="d-flex justify-content-between"
@@ -60,7 +60,9 @@ const VelocityControl: FC = () => {
             <label htmlFor={attribute}>{attribute}</label>
           </div>
         ))}
-        <button type="submit">Go</button>
+        <button className="go-btn" type="submit">
+          Go
+        </button>
       </form>
     </div>
   );
