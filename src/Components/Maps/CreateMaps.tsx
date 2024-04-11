@@ -33,7 +33,7 @@ interface InitialNode {
   position: XYPosition;
 }
 
-const initialNodes: InitialNode[] = [
+const initialNode: InitialNode[] = [
   {
     id: "1",
     type: "input",
@@ -47,16 +47,26 @@ const getId = (): string => `node_${id++}`;
 
 const Flow: React.FC = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNode);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const location = useLocation();
   const [isEditingHeader, setIsEditingHeader] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Untitled");
   const { userData, WEB_IP } = useContext(Context);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editMap, setEditMap] = useState(false);
+  const [isDraggable, setIsDraggable] = useState(true);
+  const [mapID, setMapId] = useState<string>();
+
+  const [initialNodes, setInitialNodes] = useState<InitialNode[]>([]);
+  const [initialEdges, setInitialEdges] = useState<Edge[]>([]);
+  const [initialTitle, setInitialTitle] = useState("");
 
   const handleHeaderDoubleClick = () => {
-    setIsEditingHeader(true);
+    if (editMap) {
+      setIsEditingHeader(true);
+    }
   };
 
   const handleHeaderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -188,9 +198,12 @@ const Flow: React.FC = () => {
   };
 
   const saveMap = () => {
+    const url = isEditing
+      ? `http://${WEB_IP}:8000/api/editMap/${mapID}`
+      : `http://${WEB_IP}:8000/api/createMap`;
     return axios
       .post(
-        `http://${WEB_IP}:8000/api/createMap`,
+        url,
         { name: headerTitle, nodes: nodes, edges: edges },
         {
           headers: {
@@ -215,13 +228,33 @@ const Flow: React.FC = () => {
       });
   };
 
+  const handleEditClick = () => {
+    setEditMap(true);
+    setIsDraggable(true);
+  };
+
+  const cancel = () => {
+    // Revert to the initial state
+    setNodes(initialNodes);
+    setEdges(initialEdges);
+    setHeaderTitle(initialTitle);
+
+    // Additional UI state resets as needed
+    setIsEditingHeader(false);
+    setEditMap(false); // Assuming this exits edit mode
+    setIsDraggable(false); // Assuming this makes nodes and edges non-draggable
+  };
+
   useEffect(() => {
     // Determine if we're creating a new map or editing an existing one based on the URL
     const pathSegments = location.pathname.split("/");
     const mapId = pathSegments[pathSegments.length - 1]; // Assuming URL structure is /maps/edit/:mapId
     const isEditMode = location.pathname.includes("editMap") && mapId;
+    setMapId(mapId);
 
     if (isEditMode) {
+      setIsEditing(true);
+      setIsDraggable(false);
       // Replace this URL with your actual API endpoint
       const url = `http://${WEB_IP}:8000/api/getMap/${mapId}`;
       axios
@@ -238,9 +271,11 @@ const Flow: React.FC = () => {
             name: name,
           } = response.data;
           setNodes(fetchedNodes);
+          setInitialNodes(fetchedNodes); // Store initial nodes
           setEdges(fetchedEdges);
+          setInitialEdges(fetchedEdges); // Store initial edges
           setHeaderTitle(name);
-          console.log(response.data);
+          setInitialTitle(name); // Store initial title
         })
         .catch((error) => console.error("Failed to fetch map data:", error));
     } else {
@@ -270,9 +305,24 @@ const Flow: React.FC = () => {
             )}
           </div>
           <div>
-            <button className="btn btn-success" onClick={saveMap}>
-              Save
-            </button>
+            {isEditing && editMap ? (
+              <>
+                <button className="btn btn-success me-3" onClick={saveMap}>
+                  Save Changes
+                </button>
+                <button className="btn btn-danger" onClick={cancel}>
+                  Cancel
+                </button>
+              </>
+            ) : isEditing ? (
+              <button className="btn btn-success" onClick={handleEditClick}>
+                Edit Map
+              </button>
+            ) : (
+              <button className="btn btn-success" onClick={saveMap}>
+                Save
+              </button>
+            )}
           </div>
         </div>
         <div className="card-body">
@@ -288,6 +338,9 @@ const Flow: React.FC = () => {
                   edges={edges}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
+                  nodesDraggable={isDraggable}
+                  nodesConnectable={isDraggable}
+                  elementsSelectable={isDraggable}
                   onConnect={onConnect}
                   onInit={setReactFlowInstance}
                   onDrop={onDrop}

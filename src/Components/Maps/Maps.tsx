@@ -44,7 +44,7 @@ export default function Maps() {
       });
   }, []);
 
-  const DeleteRobot = (Map_id: number) => {
+  const DeleteMap = (Map_id: number) => {
     console.log(Map_id);
     Swal.fire({
       title: "Are you sure?",
@@ -115,7 +115,7 @@ export default function Maps() {
                 <td>
                   <i
                     className="bx bx-trash text-danger fs-4"
-                    onClick={() => DeleteRobot(item.id)}
+                    onClick={() => DeleteMap(item.id)}
                   ></i>
                 </td>
               </tr>
