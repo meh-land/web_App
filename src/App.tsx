@@ -156,6 +156,16 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/maps/:id"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Flow />
+              </>
+            }
+          />
           <Route path="/Membership" element={<Membership />} />
         </Routes>
         <Footer />

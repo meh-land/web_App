@@ -11,18 +11,19 @@ import Loader from "../Loader/Loader";
 interface Map {
   id: number;
   name: string;
+  file: string;
 }
 
 export default function Maps() {
   const { isChecked, userData, WEB_IP, isLoading, setIsLoading } =
     useContext(Context);
-  /* const [robots, setRobots] = useState<Map[]>([]);
+  const [maps, setMaps] = useState<Map[]>([]);
 
-    useEffect(() => {
+  useEffect(() => {
     setIsLoading(true);
 
     axios
-      .get(`http://${WEB_IP}:8000/api/getRobots`, {
+      .get(`http://${WEB_IP}:8000/api/getMaps`, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
@@ -31,7 +32,7 @@ export default function Maps() {
         if (response.status !== 200) {
           throw new Error(response.statusText);
         }
-        setRobots(response.data);
+        setMaps(response.data);
         console.log(response.data);
         return response.data;
       })
@@ -41,10 +42,10 @@ export default function Maps() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []); */
+  }, []);
 
-  /*   const DeleteRobot = (Robot_id: number) => {
-    console.log(Robot_id);
+  const DeleteRobot = (Map_id: number) => {
+    console.log(Map_id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -56,8 +57,8 @@ export default function Maps() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://${WEB_IP}:8000/api/deleteRobot`, {
-            params: { id: Robot_id },
+          .delete(`http://${WEB_IP}:8000/api/deleteMap`, {
+            params: { id: Map_id },
             headers: {
               Authorization: `Bearer ${userData.token}`,
             },
@@ -66,7 +67,7 @@ export default function Maps() {
             if (res.status !== 200 && res.status !== 201) {
               throw new Error(res.statusText);
             }
-            setRobots(res.data.remainingRobots);
+            setMaps(res.data.remainingMaps);
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -78,7 +79,7 @@ export default function Maps() {
           });
       }
     });
-  }; */
+  };
 
   return isLoading ? (
     <Loader />
@@ -105,20 +106,20 @@ export default function Maps() {
             </tr>
           </thead>
           <tbody>
-            {/* {robots.map((item, index) => (
+            {maps.map((item, index) => (
               <tr>
                 <th scope="row">{index}</th>
                 <td>
-                  <Link to={`/robots/${item.id}/dashboard`}>{item.name}</Link>
+                  <Link to={`/maps/${item.id}`}>{item.name}</Link>
                 </td>
                 <td>
                   <i
                     className="bx bx-trash text-danger fs-4"
-                    onClick={() => DeleteRobot(item.id)} 
+                    onClick={() => DeleteRobot(item.id)}
                   ></i>
                 </td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>

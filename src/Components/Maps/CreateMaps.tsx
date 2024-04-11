@@ -1,4 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useContext,
+} from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -16,6 +22,8 @@ import Nodes from "./nodes";
 import Swal from "sweetalert2";
 import "./CreateMaps.css";
 import Navbar from "../Navbar/Navbar";
+import axios from "axios";
+import Context from "../../Context";
 
 interface InitialNode {
   id: string;
@@ -44,6 +52,7 @@ const Flow: React.FC = () => {
 
   const [isEditingHeader, setIsEditingHeader] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Untitled");
+  const { userData, WEB_IP } = useContext(Context);
 
   const handleHeaderDoubleClick = () => {
     setIsEditingHeader(true);
@@ -177,6 +186,63 @@ const Flow: React.FC = () => {
     height: "90vh", // Adjust height as necessary
   };
 
+  const saveMap = () => {
+    Swal.fire({
+      title: "Enter Robot Name",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      showLoaderOnConfirm: true,
+      preConfirm: (name) => {
+        if (!name) {
+          Swal.showValidationMessage(`Please enter map name.`);
+          return;
+        }
+        return axios
+          .post(
+            `http://${WEB_IP}:8000/api/createMap`,
+            { name: name, nodes: nodes, edges: edges },
+            {
+              headers: {
+                Authorization: `Bearer ${userData.token}`,
+              },
+            }
+          )
+          .then((response) => {
+            if (response.status !== 200 && response.status !== 201) {
+              throw new Error(response.statusText);
+            }
+            console.log(response.data);
+            return response.data;
+          })
+          .catch((error) => {
+            if (error.response) {
+              Swal.showValidationMessage(
+                `Request failed: ${error.response.data}`
+              );
+            } else if (error.request) {
+              Swal.showValidationMessage(`Request failed: ${error.request}`);
+            } else {
+              Swal.showValidationMessage(`Error: ${error.message}`);
+            }
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
   return (
     <div className="main_content dashboard_part">
       <Navbar />
@@ -197,7 +263,9 @@ const Flow: React.FC = () => {
             )}
           </div>
           <div>
-            <button className="btn btn-success">Save</button>
+            <button className="btn btn-success" onClick={saveMap}>
+              Save
+            </button>
           </div>
         </div>
         <div className="card-body">
