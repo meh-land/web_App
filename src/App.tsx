@@ -157,7 +157,7 @@ function App() {
             }
           />
           <Route
-            path="/maps/:id"
+            path="/maps/editMap/:id"
             element={
               <>
                 <MobSidebar />

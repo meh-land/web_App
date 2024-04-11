@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useContext,
 } from "react";
+import { useLocation } from "react-router-dom";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -49,7 +50,7 @@ const Flow: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-
+  const location = useLocation();
   const [isEditingHeader, setIsEditingHeader] = useState(false);
   const [headerTitle, setHeaderTitle] = useState("Untitled");
   const { userData, WEB_IP } = useContext(Context);
@@ -187,61 +188,67 @@ const Flow: React.FC = () => {
   };
 
   const saveMap = () => {
-    Swal.fire({
-      title: "Enter Robot Name",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Create",
-      showLoaderOnConfirm: true,
-      preConfirm: (name) => {
-        if (!name) {
-          Swal.showValidationMessage(`Please enter map name.`);
-          return;
+    return axios
+      .post(
+        `http://${WEB_IP}:8000/api/createMap`,
+        { name: headerTitle, nodes: nodes, edges: edges },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
         }
-        return axios
-          .post(
-            `http://${WEB_IP}:8000/api/createMap`,
-            { name: name, nodes: nodes, edges: edges },
-            {
-              headers: {
-                Authorization: `Bearer ${userData.token}`,
-              },
-            }
-          )
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201) {
-              throw new Error(response.statusText);
-            }
-            console.log(response.data);
-            return response.data;
-          })
-          .catch((error) => {
-            if (error.response) {
-              Swal.showValidationMessage(
-                `Request failed: ${error.response.data}`
-              );
-            } else if (error.request) {
-              Swal.showValidationMessage(`Request failed: ${error.request}`);
-            } else {
-              Swal.showValidationMessage(`Error: ${error.message}`);
-            }
-          });
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result.isConfirmed) {
+      )
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error(response.statusText);
+        }
+        console.log(response.data);
+        return response.data;
+      })
+      .then(() => {
         Swal.fire({
           icon: "success",
           title: "Your work has been saved",
           showConfirmButton: false,
           timer: 1500,
         });
-      }
-    });
+      });
   };
+
+  useEffect(() => {
+    // Determine if we're creating a new map or editing an existing one based on the URL
+    const pathSegments = location.pathname.split("/");
+    const mapId = pathSegments[pathSegments.length - 1]; // Assuming URL structure is /maps/edit/:mapId
+    const isEditMode = location.pathname.includes("editMap") && mapId;
+
+    if (isEditMode) {
+      // Replace this URL with your actual API endpoint
+      const url = `http://${WEB_IP}:8000/api/getMap/${mapId}`;
+      axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        })
+        .then((response) => {
+          // Assuming response data structure is { nodes: [...], edges: [...] }
+          const {
+            nodes: fetchedNodes,
+            edges: fetchedEdges,
+            name: name,
+          } = response.data;
+          setNodes(fetchedNodes);
+          setEdges(fetchedEdges);
+          setHeaderTitle(name);
+          console.log(response.data);
+        })
+        .catch((error) => console.error("Failed to fetch map data:", error));
+    } else {
+      // If not editing, set nodes to initial state or whatever your "new" state should be
+      setNodes(initialNodes);
+      setEdges([]); // Assuming no edges for a new map
+    }
+  }, [location.pathname]);
 
   return (
     <div className="main_content dashboard_part">

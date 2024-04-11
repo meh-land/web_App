@@ -110,7 +110,7 @@ export default function Maps() {
               <tr>
                 <th scope="row">{index}</th>
                 <td>
-                  <Link to={`/maps/${item.id}`}>{item.name}</Link>
+                  <Link to={`/maps/editMap/${item.id}`}>{item.name}</Link>
                 </td>
                 <td>
                   <i
