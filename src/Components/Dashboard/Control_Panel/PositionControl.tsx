@@ -27,6 +27,7 @@ const PositionControl: FC = () => {
   };
 
   const Pose_Control = () => {
+    console.log(DASHBOARD_IP);
     axios
       .post(`http://${DASHBOARD_IP}:8001/api/position_test`, {
         x: params.x,

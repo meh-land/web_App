@@ -11,11 +11,18 @@ import Loader from "../Loader/Loader";
 interface Robot {
   id: number;
   name: string;
+  IP: string;
 }
 
 export default function Robots() {
-  const { isChecked, userData, WEB_IP, isLoading, setIsLoading } =
-    useContext(Context);
+  const {
+    isChecked,
+    userData,
+    WEB_IP,
+    isLoading,
+    setIsLoading,
+    setDashboardIP,
+  } = useContext(Context);
   const [robots, setRobots] = useState<Robot[]>([]);
 
   useEffect(() => {
@@ -45,23 +52,39 @@ export default function Robots() {
 
   const AddRobot = () => {
     Swal.fire({
-      title: "Enter Robot Name",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
+      title: "Enter Robot Information",
+      html: `
+      <input type="text" id="robot-name" placeholder="Robot Name" class="swal2-input" />
+      <input type="text" id="robot-IP" placeholder="Robot IP" class="swal2-input" />
+    `,
       showCancelButton: true,
       confirmButtonText: "Create",
       showLoaderOnConfirm: true,
-      preConfirm: (name) => {
+      preConfirm: () => {
+        const nameElement = document.getElementById(
+          "robot-name"
+        ) as HTMLInputElement;
+        const IPElement = document.getElementById(
+          "robot-IP"
+        ) as HTMLSelectElement;
+
+        const name = nameElement?.value;
+        const IP = IPElement?.value;
+
         if (!name) {
-          Swal.showValidationMessage(`Please enter a robot name.`);
+          Swal.showValidationMessage("Please enter a robot name.");
           return;
         }
+
+        if (!IP) {
+          Swal.showValidationMessage("Please select a robot type.");
+          return;
+        }
+
         return axios
           .post(
             `http://${WEB_IP}:8000/api/createRobot`,
-            { name: name },
+            { name, IP },
             {
               headers: {
                 Authorization: `Bearer ${userData.token}`,
@@ -93,7 +116,7 @@ export default function Robots() {
       if (result.isConfirmed) {
         Swal.fire({
           icon: "success",
-          title: "Your work has been saved",
+          title: "Your robot has been created",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -159,16 +182,18 @@ export default function Robots() {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Robot</th>
+              <th scope="col">IP</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             {robots.map((item, index) => (
-              <tr>
+              <tr key={`robot-${index}`}>
                 <th scope="row">{index}</th>
-                <td>
+                <td onClick={() => setDashboardIP(item.IP)}>
                   <Link to={`/robots/${item.id}/dashboard`}>{item.name}</Link>
                 </td>
+                <td>{item.IP}</td>
                 <td>
                   <i
                     className="bx bx-trash text-danger fs-4"

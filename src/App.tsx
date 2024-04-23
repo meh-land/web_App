@@ -24,8 +24,9 @@ interface UserData {
 
 function App() {
   const WEB_IP = process.env.REACT_APP_IP;
-  const DASHBOARD_IP = process.env.REACT_APP_IP;
+  /* const DASHBOARD_IP = process.env.REACT_APP_IP; */
 
+  const [DASHBOARD_IP, setDashboardIP] = useState("0.0.0.0");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [logged_in, setLoggedIn] = useState<boolean>(false);
   const [sidebar, IsOpen] = useState<boolean>(false);
@@ -59,6 +60,7 @@ function App() {
       value={{
         WEB_IP,
         DASHBOARD_IP,
+        setDashboardIP,
         logged_in,
         setLoggedIn,
         userData,
