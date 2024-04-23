@@ -28,7 +28,7 @@ const PIDControl: FC = () => {
 
   const PID_Control = () => {
     axios
-      .post(`http://${DASHBOARD_IP}:8000/api/PID_test`, {
+      .post(`http://${DASHBOARD_IP}:8001/api/PID_test`, {
         kp: params.kp,
         ki: params.ki,
         kd: params.kd,

@@ -28,7 +28,7 @@ const VelocityControl: FC = () => {
 
   const vel_Control = () => {
     axios
-      .post(`http://${DASHBOARD_IP}:8000/api/velocity_test`, {
+      .post(`http://${DASHBOARD_IP}:8001/api/velocity_test`, {
         x: params.x,
         y: params.y,
         theta: params.theta,

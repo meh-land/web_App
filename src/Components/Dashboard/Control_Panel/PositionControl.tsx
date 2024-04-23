@@ -28,7 +28,7 @@ const PositionControl: FC = () => {
 
   const Pose_Control = () => {
     axios
-      .post(`http://${DASHBOARD_IP}:8000/api/position_test`, {
+      .post(`http://${DASHBOARD_IP}:8001/api/position_test`, {
         x: params.x,
         y: params.y,
         theta: params.theta,
