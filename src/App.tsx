@@ -13,6 +13,7 @@ import Robots from "./Components/Robots/Robots";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Flow from "./Components/Maps/CreateMaps";
 import Maps from "./Components/Maps/Maps";
+import Tasks from "./Components/Tasks/Tasks";
 
 interface UserData {
   user_id: number | string;
@@ -165,6 +166,16 @@ function App() {
                 <MobSidebar />
                 <Sidebar />
                 <Flow />
+              </>
+            }
+          />
+          <Route
+            path="/tasks"
+            element={
+              <>
+                <MobSidebar />
+                <Sidebar />
+                <Tasks />
               </>
             }
           />
