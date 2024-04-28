@@ -95,6 +95,7 @@ const Tasks = () => {
 
   const AddTask = async () => {
     await LoadMaps();
+
     Swal.fire({
       title: "Enter Robot Information",
       html: `
