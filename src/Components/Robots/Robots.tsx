@@ -23,6 +23,7 @@ export default function Robots() {
     setIsLoading,
     setDashboardIP,
   } = useContext(Context);
+
   const [robots, setRobots] = useState<Robot[]>([]);
 
   useEffect(() => {

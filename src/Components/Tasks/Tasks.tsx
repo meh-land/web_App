@@ -23,14 +23,8 @@ interface Map {
 }
 
 const Tasks = () => {
-  const {
-    isChecked,
-    userData,
-    WEB_IP,
-    isLoading,
-    setIsLoading,
-    setDashboardIP,
-  } = useContext(Context);
+  const { isChecked, userData, WEB_IP, isLoading, setIsLoading } =
+    useContext(Context);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [maps, setMaps] = useState<Map[]>([]);
   const [nodes, setNodes] = useState<any[]>([]);
@@ -219,6 +213,43 @@ const Tasks = () => {
     });
   };
 
+  const DeleteTask = (task_id: number) => {
+    console.log(task_id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://${WEB_IP}:8000/api/deleteTask`, {
+            params: { id: task_id },
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status !== 200 && res.status !== 201) {
+              throw new Error(res.statusText);
+            }
+            setTasks(res.data.remainingTasks);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((error) => {
+            console.error("Deletion error:", error);
+          });
+      }
+    });
+  };
+
   return isLoading ? (
     <Loader />
   ) : (
@@ -249,13 +280,16 @@ const Tasks = () => {
           <tbody>
             {tasks.map((item, index) => (
               <tr key={`task-${index}`}>
-                <th scope="row">{index}</th>
+                <td scope="row">{index}</td>
                 <td>{item.name}</td>
                 <td>{item.pickupNode}</td>
                 <td>{item.dropoffNode}</td>
                 <td>{item.taskTime}</td>
                 <td>
-                  <i className="bx bx-trash text-danger fs-4"></i>
+                  <i
+                    className="bx bx-trash text-danger fs-4"
+                    onClick={() => DeleteTask(item.id)}
+                  ></i>
                 </td>
               </tr>
             ))}
