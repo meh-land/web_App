@@ -1,3 +1,15 @@
+.swal-robot-popup {
+  width: 70%;
+}
+
+.swal-robot-popup .swal2-html-container {
+  overflow-x: hidden;
+}
+
+.swal-robot-popup .swal2-input {
+  width: 70%;
+}
+
 .btn-hover {
   width: 200px;
   font-size: 16px;

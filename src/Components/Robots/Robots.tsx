@@ -55,9 +55,26 @@ export default function Robots() {
     Swal.fire({
       title: "Enter Robot Information",
       html: `
-      <input type="text" id="robot-name" placeholder="Robot Name" class="swal2-input" />
-      <input type="text" id="robot-IP" placeholder="Robot IP" class="swal2-input" />
+      <div class="row" style="display: flex; align-items: center;">
+        <div class="col-3">
+          <label for="robot-name">Robot Name:</label>
+        </div>
+        <div class="col-8">
+          <input type="text" id="robot-name" placeholder="Robot Name" class="swal2-input" />
+        </div>
+      </div>
+      <div class="row" style="display: flex; align-items: center;">
+        <div class="col-3">
+          <label for="robot-IP">Robot IP:</label>
+        </div>
+        <div class="col-8">
+          <input type="text" id="robot-IP" placeholder="Robot IP" class="swal2-input" />
+        </div>
+      <div>
     `,
+      customClass: {
+        popup: "swal-robot-popup",
+      },
       showCancelButton: true,
       confirmButtonText: "Create",
       showLoaderOnConfirm: true,
@@ -162,6 +179,99 @@ export default function Robots() {
     });
   };
 
+  const editRobot = (Robot_id: number) => {
+    const Robot = robots.find((robot) => robot.id === Robot_id);
+    console.log(Robot);
+    Swal.fire({
+      title: "Edit Robot Information",
+      html: `
+      <div class="row" style="display: flex; align-items: center;">
+        <div class="col-3">
+          <label for="robot-name">Robot Name:</label>
+        </div>
+        <div class="col-8">
+          <input type="text" id="robot-name" value=${Robot?.name} class="swal2-input" />
+        </div>
+      </div>
+      <div class="row" style="display: flex; align-items: center;">
+        <div class="col-3">
+          <label for="robot-IP">Robot IP:</label>
+        </div>
+        <div class="col-8">
+          <input type="text" id="robot-IP" value=${Robot?.IP} class="swal2-input" />
+        </div>
+      <div>
+    `,
+      customClass: {
+        popup: "swal-robot-popup",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Update",
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        const nameElement = document.getElementById(
+          "robot-name"
+        ) as HTMLInputElement;
+        const IPElement = document.getElementById(
+          "robot-IP"
+        ) as HTMLSelectElement;
+
+        const name = nameElement?.value;
+        const IP = IPElement?.value;
+
+        if (!name) {
+          Swal.showValidationMessage("Please enter a robot name.");
+          return;
+        }
+
+        if (!IP) {
+          Swal.showValidationMessage("Please select a robot type.");
+          return;
+        }
+
+        return axios
+          .put(
+            `http://${WEB_IP}:8000/api/editRobot`,
+            { Robot_id, name, IP },
+            {
+              headers: {
+                Authorization: `Bearer ${userData.token}`,
+              },
+            }
+          )
+          .then((response) => {
+            if (response.status !== 200 && response.status !== 201) {
+              throw new Error(response.statusText);
+            }
+            setRobots(response.data.robots);
+            console.log(response.data.robots);
+            return response.data;
+          })
+          .catch((error) => {
+            if (error.response) {
+              Swal.showValidationMessage(
+                `Request failed: ${error.response.data}`
+              );
+            } else if (error.request) {
+              Swal.showValidationMessage(`Request failed: ${error.request}`);
+            } else {
+              Swal.showValidationMessage(`Error: ${error.message}`);
+            }
+          });
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title: "Your robot has been created",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
   return isLoading ? (
     <Loader />
   ) : (
@@ -197,7 +307,11 @@ export default function Robots() {
                 <td>{item.IP}</td>
                 <td>
                   <i
-                    className="bx bx-trash text-danger fs-4"
+                    className="bx bx-edit fs-4 text-primary mx-2"
+                    onClick={() => editRobot(item.id)}
+                  ></i>
+                  <i
+                    className="bx bx-trash text-danger fs-4 mx-2"
                     onClick={() => DeleteRobot(item.id)}
                   ></i>
                 </td>
