@@ -25,6 +25,7 @@ import "./CreateMaps.css";
 import Navbar from "../Navbar/Navbar";
 import axios from "axios";
 import Context from "../../Context";
+import { useNavigate } from "react-router-dom";
 
 interface InitialNode {
   id: string;
@@ -46,6 +47,8 @@ let id = 0;
 const getId = (): string => `node_${id++}`;
 
 const Flow: React.FC = () => {
+  let navigate = useNavigate();
+
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNode);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -64,7 +67,7 @@ const Flow: React.FC = () => {
   const [initialTitle, setInitialTitle] = useState("");
 
   const handleHeaderDoubleClick = () => {
-    if (editMap) {
+    if (editMap || location.pathname.split("/").includes("newMap")) {
       setIsEditingHeader(true);
     }
   };
@@ -224,7 +227,7 @@ const Flow: React.FC = () => {
           title: "Your work has been saved",
           showConfirmButton: false,
           timer: 1500,
-        });
+        }).then(() => navigate("/maps"));
       });
   };
 
