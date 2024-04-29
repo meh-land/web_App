@@ -72,6 +72,8 @@ export default function Maps() {
               title: "Deleted!",
               text: "Your file has been deleted.",
               icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
             });
           })
           .catch((error) => {
