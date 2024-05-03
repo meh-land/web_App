@@ -44,7 +44,7 @@ const initialNode: InitialNode[] = [
 ];
 
 let id = 0;
-const getId = (): string => `node_${id++}`;
+const getId = (): string => `node_${++id}`;
 
 const Flow: React.FC = () => {
   let navigate = useNavigate();
@@ -65,6 +65,21 @@ const Flow: React.FC = () => {
   const [initialNodes, setInitialNodes] = useState<InitialNode[]>([]);
   const [initialEdges, setInitialEdges] = useState<Edge[]>([]);
   const [initialTitle, setInitialTitle] = useState("");
+
+    useEffect(() => {
+      // Find the maximum ID when the component loads or the path changes
+      const maxId = Math.max(
+        ...nodes.map((node) => parseInt(node.id.replace("node_", ""))),
+        ...edges.map((edge) =>
+          Math.max(
+            parseInt(edge.source.replace("node_", "")),
+            parseInt(edge.target.replace("node_", ""))
+          )
+        )
+      );
+
+      id = isNaN(maxId) ? 0 : maxId; // Update the id variable to be one more than the max found
+    }, [nodes, edges]);
 
   const handleHeaderDoubleClick = () => {
     if (editMap || location.pathname.split("/").includes("newMap")) {
@@ -355,7 +370,8 @@ const Flow: React.FC = () => {
                   <Background />
                 </ReactFlow>
               </div>
-              <Nodes />
+              {((isEditing && editMap) ||
+                location.pathname.includes("newMap")) && <Nodes />}
             </ReactFlowProvider>
           </div>
         </div>
