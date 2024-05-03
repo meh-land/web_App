@@ -3,6 +3,7 @@ import { FC, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface FormData {
   name: string;
@@ -51,23 +52,62 @@ const Signup: FC<Props> = ({ handleClick }) => {
 
   const signup = async () => {
     try {
-      axios
-        .post(`http://${WEB_IP}:8000/api/register`, {
-          name: userData.name,
-          email: userData.email,
-          password: userData.password,
-        })
-        .then((res) => {
-          //setLoggedIn(res.data.status);
-          const user = res.data.user;
-          setUserData(user);
-          console.log(userData);
+      const res = await axios.post(`http://${WEB_IP}:8000/api/register`, {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+      });
 
-          navigate(`/`);
-          console.log(userData);
+      if (res.status === 200 || res.status === 201) {
+        setUserData(res.data.user); // Assuming your API responds with the user data
+        setLoggedIn(true);
+        navigate(`/`);
+      } else {
+        throw new Error("Failed to register. Please try again later.");
+      }
+    } catch (error: unknown) {
+      // First check if this is an AxiosError
+      if (axios.isAxiosError(error)) {
+        // Error is from Axios and we can access response and data
+        if (error.response) {
+          // Check for a 422 status code
+          if (error.response.status === 422) {
+            // Handle validation errors
+            const validationErrors = error.response.data.errors; // Adjust depending on the error format
+            const message = Object.keys(validationErrors)
+              .map((key) => `${key}: ${validationErrors[key].join(", ")}`)
+              .join("\n");
+            Swal.fire({
+              icon: "error",
+              title: "Validation Error",
+              text: message,
+            });
+          } else {
+            // General error handling for other status codes
+            Swal.fire({
+              icon: "error",
+              title: "Registration Failed",
+              text:
+                error.response.data.message ||
+                "An unexpected error occurred during registration.",
+            });
+          }
+        } else {
+          // Error does not have a response (could be network error or something else)
+          Swal.fire({
+            icon: "error",
+            title: "Registration Failed",
+            text: "No response from server. Check your network connection.",
+          });
+        }
+      } else {
+        // Error is not an AxiosError, could be something else like a programming error
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "An unexpected error occurred. Please try again later.",
         });
-    } catch (error) {
-      throw error;
+      }
     }
   };
 

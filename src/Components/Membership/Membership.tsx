@@ -27,18 +27,6 @@ const Membership: FC = () => {
     }, 3000);
   }, []);
 
-  /*   useLayoutEffect(() => {
-    console.log(boxRef.current);
-    setTimeout(() => {
-      gsap.from(boxRef.current, {
-        autoAlpha: 0,
-        duration: 1.5,
-        scale: 0,
-        ease: "bounce.out",
-      });
-    }, 3010);
-  }, []); */
-
   const toggleAction = () => {
     var newAction = action === "login" ? "signup" : "login";
     setAction(newAction);
