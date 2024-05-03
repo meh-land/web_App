@@ -26,6 +26,7 @@ import Navbar from "../Navbar/Navbar";
 import axios from "axios";
 import Context from "../../Context";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
 interface InitialNode {
   id: string;
@@ -49,6 +50,8 @@ const getId = (): string => `node_${++id}`;
 const Flow: React.FC = () => {
   let navigate = useNavigate();
 
+  const { isLoading, setIsLoading } = useContext(Context);
+
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNode);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -66,20 +69,20 @@ const Flow: React.FC = () => {
   const [initialEdges, setInitialEdges] = useState<Edge[]>([]);
   const [initialTitle, setInitialTitle] = useState("");
 
-    useEffect(() => {
-      // Find the maximum ID when the component loads or the path changes
-      const maxId = Math.max(
-        ...nodes.map((node) => parseInt(node.id.replace("node_", ""))),
-        ...edges.map((edge) =>
-          Math.max(
-            parseInt(edge.source.replace("node_", "")),
-            parseInt(edge.target.replace("node_", ""))
-          )
+  useEffect(() => {
+    // Find the maximum ID when the component loads or the path changes
+    const maxId = Math.max(
+      ...nodes.map((node) => parseInt(node.id.replace("node_", ""))),
+      ...edges.map((edge) =>
+        Math.max(
+          parseInt(edge.source.replace("node_", "")),
+          parseInt(edge.target.replace("node_", ""))
         )
-      );
+      )
+    );
 
-      id = isNaN(maxId) ? 0 : maxId; // Update the id variable to be one more than the max found
-    }, [nodes, edges]);
+    id = isNaN(maxId) ? 0 : maxId; // Update the id variable to be one more than the max found
+  }, [nodes, edges]);
 
   const handleHeaderDoubleClick = () => {
     if (editMap || location.pathname.split("/").includes("newMap")) {
@@ -216,6 +219,7 @@ const Flow: React.FC = () => {
   };
 
   const saveMap = () => {
+    setIsLoading(true);
     const url = isEditing
       ? `http://${WEB_IP}:8000/api/editMap/${mapID}`
       : `http://${WEB_IP}:8000/api/createMap`;
@@ -242,7 +246,10 @@ const Flow: React.FC = () => {
           title: "Your work has been saved",
           showConfirmButton: false,
           timer: 1500,
-        }).then(() => navigate("/maps"));
+        }).then(() => {
+          setIsLoading(false);
+          navigate("/maps");
+        });
       });
   };
 
@@ -271,6 +278,7 @@ const Flow: React.FC = () => {
     setMapId(mapId);
 
     if (isEditMode) {
+      setIsLoading(true);
       setIsEditing(true);
       setIsDraggable(false);
       // Replace this URL with your actual API endpoint
@@ -294,6 +302,7 @@ const Flow: React.FC = () => {
           setInitialEdges(fetchedEdges); // Store initial edges
           setHeaderTitle(name);
           setInitialTitle(name); // Store initial title
+          setIsLoading(false);
         })
         .catch((error) => console.error("Failed to fetch map data:", error));
     } else {
@@ -303,7 +312,9 @@ const Flow: React.FC = () => {
     }
   }, [location.pathname]);
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="main_content dashboard_part">
       <Navbar />
       <div className="card mt-4 mx-4" id="Map">
