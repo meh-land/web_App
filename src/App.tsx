@@ -44,7 +44,7 @@ function App() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (cookies.rememberMe === false) {
+    if (!cookies.rememberMe) {
       navigate(`/Membership`);
     } else {
       navigate(`/`);

@@ -4,7 +4,6 @@ import Loader from "./../Loader/Loader";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
-import Flow from "../Maps/CreateMaps";
 
 const Home: FC = () => {
   const {
