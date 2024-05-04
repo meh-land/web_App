@@ -37,8 +37,8 @@ const Tasks = () => {
   const [show, setShow] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [mapId, setMapId] = useState<number | null>(null);
-  const [pickUpNode, setPickupNode] = useState<number | null>(null);
-  const [dropOffNode, setDropOffNode] = useState<number | null>(null);
+  const [pickUpNode, setPickupNode] = useState<string | null>(null);
+  const [dropOffNode, setDropOffNode] = useState<string | null>(null);
   const [taskTime, setTaskTime] = useState("");
 
   const handleClose = () => setShow(false);
@@ -116,8 +116,8 @@ const Tasks = () => {
         {
           TASK: taskName,
           MAP: mapId,
-          pickUpNode,
-          dropOffNode,
+          pickUpNode: pickUpNode,
+          dropOffNode: dropOffNode,
           TaskTime: taskTime,
         },
         {
@@ -235,11 +235,11 @@ const Tasks = () => {
                   value={mapId ?? ""}
                   onChange={(e) => LoadNodes(parseInt(e.target.value, 10))}
                 >
-                  <option value="">Select Map</option>
+                  <option value="" disabled selected>
+                    Select Map
+                  </option>
                   {maps.map((map) => (
-                    <option key={map.id} value={map.id}>
-                      {map.name}
-                    </option>
+                    <option value={map.id}>{map.name}</option>
                   ))}
                 </select>
               </div>
@@ -253,9 +253,11 @@ const Tasks = () => {
                   id="pickup-node"
                   className="form-control"
                   value={pickUpNode ?? ""}
-                  onChange={(e) => setPickupNode(parseInt(e.target.value, 10))}
+                  onChange={(e) => setPickupNode(e.target.value)}
                 >
-                  <option value="">Select Pick-Up Node</option>
+                  <option value="" disabled selected>
+                    Select Pick-Up Node
+                  </option>
                   {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
                       {node.data.label}
@@ -273,9 +275,11 @@ const Tasks = () => {
                   id="dropoff-node"
                   className="form-control"
                   value={dropOffNode ?? ""}
-                  onChange={(e) => setDropOffNode(parseInt(e.target.value, 10))}
+                  onChange={(e) => setDropOffNode(e.target.value)}
                 >
-                  <option value="">Select Drop-Off Node</option>
+                  <option value="" disabled selected>
+                    Select Drop-Off Node
+                  </option>
                   {nodes.map((node) => (
                     <option key={node.id} value={node.id}>
                       {node.data.label}
@@ -319,6 +323,7 @@ const Tasks = () => {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Task</th>
+              <th scope="col">Map</th>
               <th scope="col">Pick-Up Node</th>
               <th scope="col">Drop-Off Node</th>
               <th scope="col">Time</th>
@@ -330,6 +335,7 @@ const Tasks = () => {
               <tr key={`task-${index}`}>
                 <td scope="row">{index}</td>
                 <td>{item.name}</td>
+                <td>{item.map}</td>
                 <td>{item.pickupNode}</td>
                 <td>{item.dropoffNode}</td>
                 <td>{item.taskTime}</td>
