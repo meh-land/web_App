@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./Tasks.css";
 import Loader from "../Loader/Loader";
+import { Modal, Button } from "react-bootstrap";
 
 interface Task {
   id: number;
@@ -22,12 +23,26 @@ interface Map {
   file: string;
 }
 
+interface Node {
+  id: number;
+  data: { label: string };
+}
+
 const Tasks = () => {
   const { isChecked, userData, WEB_IP, isLoading, setIsLoading } =
     useContext(Context);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [maps, setMaps] = useState<Map[]>([]);
-  const [nodes, setNodes] = useState<any[]>([]);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [show, setShow] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [mapId, setMapId] = useState<number | null>(null);
+  const [pickUpNode, setPickupNode] = useState<number | null>(null);
+  const [dropOffNode, setDropOffNode] = useState<number | null>(null);
+  const [taskTime, setTaskTime] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,7 +58,6 @@ const Tasks = () => {
           throw new Error(response.statusText);
         }
         setTasks(response.data);
-        console.log(response.data);
         return response.data;
       })
       .catch(function (error) {
@@ -66,7 +80,7 @@ const Tasks = () => {
           throw new Error(response.statusText);
         }
         setMaps(response.data);
-        console.log(response.data);
+        handleShow();
         return response.data;
       })
       .catch(function (error) {
@@ -88,134 +102,58 @@ const Tasks = () => {
       .then((response) => {
         const { nodes: fetchedNodes } = response.data;
         setNodes(fetchedNodes);
-        console.log(fetchedNodes);
+        setMapId(mapId);
+        setPickupNode(null); // Reset pick up node selection
+        setDropOffNode(null); // Reset drop off node selection
       })
       .catch((error) => console.error("Failed to fetch map data:", error));
   };
 
-  const AddTask = async () => {
-    await LoadMaps();
-
-    Swal.fire({
-      title: "Enter Robot Information",
-      html: `
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <label for="task-name">Task Name:</label>
-        <input type="text" id="task-name" placeholder="Enter task name" class="swal2-input" />
-      </div>
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <label for="map">Choose Map:</label>
-        <select id="map" class="swal2-input">
-            <option value="">Select Map</option>
-            ${maps
-              .map((map) => `<option value="${map.id}">${map.name}</option>`)
-              .join("")}
-        </select>
-      </div>
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <label for="pickup-node">Pick-Up Node:</label>
-        <select id="pickup-node" class="swal2-input">
-          <option value="">Select Map</option>
-        ${nodes
-          .map(
-            (node) => `<option value="${node.id}">${node.data.label}</option>`
-          )
-          .join("")}
-        </select>
-      </div>
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <label for="dropoff-node">Drop-Down Node:</label>
-        <select id="dropoff-node" class="swal2-input">
-          <option value="">Select Map</option>
-        ${nodes
-          .map(
-            (node) => `<option value="${node.id}">${node.data.label}</option>`
-          )
-          .join("")}
-        </select>
-      </div>
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <label for="robot-name">Schedule Time:</label>
-        <input type="datetime-local" id="task-time" placeholder="Enter robot name" class="swal2-input" />
-      </div>
-          `,
-      customClass: {
-        popup: "swal-task-popup",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Create",
-      showLoaderOnConfirm: true,
-      preConfirm: () => {
-        const taskName = document.getElementById(
-          "task-name"
-        ) as HTMLInputElement;
-        const map = document.getElementById("map") as HTMLSelectElement;
-        const pickUp = document.getElementById(
-          "pickup-node"
-        ) as HTMLSelectElement;
-        const dropOff = document.getElementById(
-          "dropoff-node"
-        ) as HTMLSelectElement;
-        const time = document.getElementById("task-time") as HTMLSelectElement;
-
-        const TASK = taskName?.value;
-        const MAP = map?.value;
-        const pickUpNode = pickUp?.value;
-        const dropOffNode = dropOff?.value;
-        const TaskTime = time?.value;
-
-        return axios
-          .post(
-            `http://${WEB_IP}:8000/api/createTask`,
-            { TASK, MAP, pickUpNode, dropOffNode, TaskTime },
-            {
-              headers: {
-                Authorization: `Bearer ${userData.token}`,
-              },
-            }
-          )
-          .then((response) => {
-            if (response.status !== 200 && response.status !== 201) {
-              throw new Error(response.statusText);
-            }
-            setTasks(response.data);
-            console.log(response.data);
-            return response.data;
-          })
-          .catch((error) => {
-            if (error.response) {
-              Swal.showValidationMessage(
-                `Request failed: ${error.response.data}`
-              );
-            } else if (error.request) {
-              Swal.showValidationMessage(`Request failed: ${error.request}`);
-            } else {
-              Swal.showValidationMessage(`Error: ${error.message}`);
-            }
-          });
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result.isConfirmed) {
+  const handleCreateTask = async () => {
+    return axios
+      .post(
+        `http://${WEB_IP}:8000/api/createTask`,
+        {
+          TASK: taskName,
+          MAP: mapId,
+          pickUpNode,
+          dropOffNode,
+          TaskTime: taskTime,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error(response.statusText);
+        }
+        setTasks(response.data);
+        handleClose();
         Swal.fire({
           icon: "success",
-          title: "Your robot has been created",
+          title: "Your task has been created",
           showConfirmButton: false,
           timer: 1500,
         });
-      }
-    });
-    const mapSelect = document.getElementById("map") as HTMLSelectElement;
-    mapSelect.addEventListener("change", (event: Event) => {
-      const mapId = (event.target as HTMLSelectElement).value;
-      if (mapId) {
-        LoadNodes(parseInt(mapId, 10));
-      }
-    });
+        return response.data;
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Task creation failed",
+          text: error.response
+            ? `Request failed: ${error.response.data}`
+            : error.request
+            ? `Request failed: ${error.request}`
+            : `Error: ${error.message}`,
+        });
+      });
   };
 
   const DeleteTask = (task_id: number) => {
-    console.log(task_id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -240,12 +178,17 @@ const Tasks = () => {
             setTasks(res.data.remainingTasks);
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Your task has been deleted.",
               icon: "success",
             });
           })
           .catch((error) => {
             console.error("Deletion error:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete the task.",
+              icon: "error",
+            });
           });
       }
     });
@@ -258,9 +201,113 @@ const Tasks = () => {
       <Navbar />
       <Path title="Tasks" />
       <div className="d-flex justify-content-center">
-        <button className="btn-hover color-5" onClick={AddTask}>
+        <button className="btn-hover color-5" onClick={LoadMaps}>
           + Add Tasks
         </button>
+        <Modal show={show} onHide={handleClose} size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Enter Task Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="row mb-3">
+              <div className="col-3">
+                <label htmlFor="task-name">Task Name:</label>
+              </div>
+              <div className="col-9">
+                <input
+                  type="text"
+                  id="task-name"
+                  placeholder="Enter task name"
+                  className="form-control"
+                  value={taskName}
+                  onChange={(e) => setTaskName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col-3">
+                <label htmlFor="map">Choose Map:</label>
+              </div>
+              <div className="col-9">
+                <select
+                  id="map"
+                  className="form-control"
+                  value={mapId ?? ""}
+                  onChange={(e) => LoadNodes(parseInt(e.target.value, 10))}
+                >
+                  <option value="">Select Map</option>
+                  {maps.map((map) => (
+                    <option key={map.id} value={map.id}>
+                      {map.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col-3">
+                <label htmlFor="pickup-node">Pick-Up Node:</label>
+              </div>
+              <div className="col-9">
+                <select
+                  id="pickup-node"
+                  className="form-control"
+                  value={pickUpNode ?? ""}
+                  onChange={(e) => setPickupNode(parseInt(e.target.value, 10))}
+                >
+                  <option value="">Select Pick-Up Node</option>
+                  {nodes.map((node) => (
+                    <option key={node.id} value={node.id}>
+                      {node.data.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col-3">
+                <label htmlFor="dropoff-node">Drop-Off Node:</label>
+              </div>
+              <div className="col-9">
+                <select
+                  id="dropoff-node"
+                  className="form-control"
+                  value={dropOffNode ?? ""}
+                  onChange={(e) => setDropOffNode(parseInt(e.target.value, 10))}
+                >
+                  <option value="">Select Drop-Off Node</option>
+                  {nodes.map((node) => (
+                    <option key={node.id} value={node.id}>
+                      {node.data.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="row mb-3">
+              <div className="col-3">
+                <label htmlFor="task-time">Schedule Time:</label>
+              </div>
+              <div className="col-9">
+                <input
+                  type="datetime-local"
+                  id="task-time"
+                  className="form-control"
+                  value={taskTime}
+                  onChange={(e) => setTaskTime(e.target.value)}
+                />
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleCreateTask}>
+              Save Task
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
       <div className="robots-table px-5">
         <table
