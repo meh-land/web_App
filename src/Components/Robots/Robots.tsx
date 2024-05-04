@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./Robots.css";
 import Loader from "../Loader/Loader";
+import Empty from "../Empty/Empty";
 
 interface Robot {
   id: number;
@@ -283,43 +284,47 @@ export default function Robots() {
           + Add Robot
         </button>
       </div>
-      <div className="robots-table px-5">
-        <table
-          className={`table table-hover ${
-            isChecked ? "table-light" : "table-dark"
-          }`}
-        >
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Robot</th>
-              <th scope="col">IP</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {robots.map((item, index) => (
-              <tr key={`robot-${index}`}>
-                <th scope="row">{index}</th>
-                <td onClick={() => setDashboardIP(item.IP)}>
-                  <Link to={`/robots/${item.id}/dashboard`}>{item.name}</Link>
-                </td>
-                <td>{item.IP}</td>
-                <td>
-                  <i
-                    className="bx bx-edit fs-4 text-primary mx-2"
-                    onClick={() => editRobot(item.id)}
-                  ></i>
-                  <i
-                    className="bx bx-trash text-danger fs-4 mx-2"
-                    onClick={() => DeleteRobot(item.id)}
-                  ></i>
-                </td>
+      {robots.length === 0 ? (
+        <Empty text="Robots" />
+      ) : (
+        <div className="robots-table px-5">
+          <table
+            className={`table table-hover ${
+              isChecked ? "table-light" : "table-dark"
+            }`}
+          >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Robot</th>
+                <th scope="col">IP</th>
+                <th scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {robots.map((item, index) => (
+                <tr key={`robot-${index}`}>
+                  <th scope="row">{index}</th>
+                  <td onClick={() => setDashboardIP(item.IP)}>
+                    <Link to={`/robots/${item.id}/dashboard`}>{item.name}</Link>
+                  </td>
+                  <td>{item.IP}</td>
+                  <td>
+                    <i
+                      className="bx bx-edit fs-4 text-primary mx-2"
+                      onClick={() => editRobot(item.id)}
+                    ></i>
+                    <i
+                      className="bx bx-trash text-danger fs-4 mx-2"
+                      onClick={() => DeleteRobot(item.id)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

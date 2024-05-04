@@ -7,6 +7,7 @@ import axios from "axios";
 import "./Tasks.css";
 import Loader from "../Loader/Loader";
 import { Modal, Button } from "react-bootstrap";
+import Empty from "../Empty/Empty";
 
 interface Task {
   id: number;
@@ -313,43 +314,47 @@ const Tasks = () => {
           </Modal.Footer>
         </Modal>
       </div>
-      <div className="robots-table px-5">
-        <table
-          className={`table table-hover ${
-            isChecked ? "table-light" : "table-dark"
-          }`}
-        >
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Task</th>
-              <th scope="col">Map</th>
-              <th scope="col">Pick-Up Node</th>
-              <th scope="col">Drop-Off Node</th>
-              <th scope="col">Time</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((item, index) => (
-              <tr key={`task-${index}`}>
-                <td scope="row">{index}</td>
-                <td>{item.name}</td>
-                <td>{item.map}</td>
-                <td>{item.pickupNode}</td>
-                <td>{item.dropoffNode}</td>
-                <td>{item.taskTime}</td>
-                <td>
-                  <i
-                    className="bx bx-trash text-danger fs-4"
-                    onClick={() => DeleteTask(item.id)}
-                  ></i>
-                </td>
+      {tasks.length === 0 ? (
+        <Empty text="Tasks" />
+      ) : (
+        <div className="robots-table px-5">
+          <table
+            className={`table table-hover ${
+              isChecked ? "table-light" : "table-dark"
+            }`}
+          >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task</th>
+                <th scope="col">Map</th>
+                <th scope="col">Pick-Up Node</th>
+                <th scope="col">Drop-Off Node</th>
+                <th scope="col">Time</th>
+                <th scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {tasks.map((item, index) => (
+                <tr key={`task-${index}`}>
+                  <td scope="row">{index}</td>
+                  <td>{item.name}</td>
+                  <td>{item.map}</td>
+                  <td>{item.pickupNode}</td>
+                  <td>{item.dropoffNode}</td>
+                  <td>{item.taskTime}</td>
+                  <td>
+                    <i
+                      className="bx bx-trash text-danger fs-4"
+                      onClick={() => DeleteTask(item.id)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

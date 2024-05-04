@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import "./Maps.css";
 import Loader from "../Loader/Loader";
+import Empty from "../Empty/Empty";
 
 interface Map {
   id: number;
@@ -94,37 +95,41 @@ export default function Maps() {
           <Link to="/maps/newMap">+ New Map</Link>
         </button>
       </div>
-      <div className="maps-table px-5">
-        <table
-          className={`table table-hover ${
-            isChecked ? "table-light" : "table-dark"
-          }`}
-        >
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Map</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {maps.map((item, index) => (
+      {maps.length === 0 ? (
+        <Empty text="Maps" />
+      ) : (
+        <div className="maps-table px-5">
+          <table
+            className={`table table-hover ${
+              isChecked ? "table-light" : "table-dark"
+            }`}
+          >
+            <thead>
               <tr>
-                <th scope="row">{index}</th>
-                <td>
-                  <Link to={`/maps/editMap/${item.id}`}>{item.name}</Link>
-                </td>
-                <td>
-                  <i
-                    className="bx bx-trash text-danger fs-4"
-                    onClick={() => DeleteMap(item.id)}
-                  ></i>
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Map</th>
+                <th scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {maps.map((item, index) => (
+                <tr>
+                  <th scope="row">{index}</th>
+                  <td>
+                    <Link to={`/maps/editMap/${item.id}`}>{item.name}</Link>
+                  </td>
+                  <td>
+                    <i
+                      className="bx bx-trash text-danger fs-4"
+                      onClick={() => DeleteMap(item.id)}
+                    ></i>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
