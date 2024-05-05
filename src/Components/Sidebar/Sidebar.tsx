@@ -3,6 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar: FC = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <nav className="sidebar">
       <header>
@@ -14,15 +17,18 @@ const Sidebar: FC = () => {
       </header>
       <div className="menu-bar">
         <div className="menu">
-          <ul className="menu-links p-0 ">
+          <ul className="menu-links p-0">
             <li>
-              <Link to="/">
+              <Link to="/" className={currentPath === "/" ? "active" : ""}>
                 <i className="bx bx-home-alt icon"></i>
                 <span className="text nav-text">Home</span>
               </Link>
             </li>
             <li>
-              <Link to="/robots">
+              <Link
+                to="/robots"
+                className={currentPath === "/robots" ? "active" : ""}
+              >
                 <i className="icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -55,13 +61,19 @@ const Sidebar: FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/maps">
+              <Link
+                to="/maps"
+                className={currentPath === "/maps" ? "active" : ""}
+              >
                 <i className="bx bx-map icon"></i>
                 <span className="text nav-text">Maps</span>
               </Link>
             </li>
             <li>
-              <Link to="/tasks">
+              <Link
+                to="/tasks"
+                className={currentPath === "/tasks" ? "active" : ""}
+              >
                 <i className="bx bx-task icon"></i>
                 <span className="text nav-text">Tasks</span>
               </Link>
