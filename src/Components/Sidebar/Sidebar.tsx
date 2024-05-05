@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "../../images/logo.png";
 import "./Sidebar.css";
 
 const Sidebar: FC = () => {
@@ -10,8 +11,9 @@ const Sidebar: FC = () => {
     <nav className="sidebar">
       <header>
         <div className="image-text">
-          <div className="text logo-text">
-            <h3>LOGO</h3>
+          <div className="text logo-text d-flex align-items-center">
+            <img src={logo} alt="logo" className="mb-3" />
+            <h3 className="m-0">LOGO</h3>
           </div>
         </div>
       </header>

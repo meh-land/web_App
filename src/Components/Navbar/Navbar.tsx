@@ -5,6 +5,7 @@ import "./Navbar.css";
 import Dropdown from "../UserDropdown/UserDropDown";
 import CircleBtn from "../Circlebtn/Circlebtn";
 import DarkLight_Toggle from "../Dark_Light_Toggle/Dark_Light_Toggle";
+import logo from "../../images/logo.png";
 
 const Navbar: FC = () => {
   const [effect, seteffect] = useState<boolean>(false);
@@ -23,7 +24,8 @@ const Navbar: FC = () => {
             <div className="p-2 bd-highlight d-lg-none">
               <CircleBtn clickHandler={OpenSidebar} active={sidebar} />
             </div>
-            <div className="p-2 bd-highlight logo d-lg-none">
+            <div className="p-2 bd-highlight logo d-lg-none d-flex align-items-center">
+              <img src={logo} alt="logo" className="me-3" />
               <h3 className="m-0">LOGO</h3>
             </div>
             <div className="p-2 bd-highlight username d-none d-lg-block">

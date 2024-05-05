@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Context from "./Context";
 import Home from "./Components/Home/Home";
 import Membership from "./Components/Membership/Membership";
@@ -41,13 +47,16 @@ function App() {
     token: "",
   });
 
+  const [previousPath, setPreviousPath] = useState<string | null>(null);
   let navigate = useNavigate();
+  let location = useLocation();
 
   useEffect(() => {
     if (!cookies.rememberMe) {
       navigate(`/Membership`);
     } else {
-      navigate(`/`);
+      const lastVisitedPath = cookies.lastVisitedPath || "/";
+      navigate(lastVisitedPath);
       for (const key in userData) {
         if (key in cookies) {
           userData[key as keyof UserData] = cookies[key as keyof UserData];
@@ -55,6 +64,28 @@ function App() {
       }
     }
   }, [cookies.rememberMe]);
+
+  useEffect(() => {
+    setCookie("lastVisitedPath", location.pathname, { path: "/" });
+  }, [location, setCookie]);
+
+  useEffect(() => {
+    const handleGoBack = (event: KeyboardEvent) => {
+      if (event.key === "Backspace" && previousPath) {
+        navigate(previousPath);
+      }
+    };
+
+    window.addEventListener("keydown", handleGoBack);
+
+    return () => {
+      window.removeEventListener("keydown", handleGoBack);
+    };
+  }, [navigate, previousPath]);
+
+  useEffect(() => {
+    setPreviousPath(location.pathname);
+  }, [location.pathname]);
 
   return (
     <Context.Provider
