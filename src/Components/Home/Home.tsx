@@ -4,6 +4,7 @@ import Loader from "./../Loader/Loader";
 import Navbar from "../Navbar/Navbar";
 import Test from "../TestingInterface/Test";
 import "./Home.css";
+import Hero from "./Hero/Hero";
 
 const Home: FC = () => {
   const {
@@ -46,6 +47,7 @@ const Home: FC = () => {
     <div className="main_content dashboard_part">
       <Navbar />
       {/* <Test /> */}
+      <Hero />
     </div>
   );
 };
