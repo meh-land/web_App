@@ -328,10 +328,7 @@ export default function Robots() {
     });
   };
 
-  const AssignTask = (IP: string, id: string) => {
-    const task = tasks.find((task) => task.id === id);
-    const taskName = task ? task.name : null;
-
+  const AssignTask = (IP: string, taskName: string) => {
     axios
       .post(
         `http://${IP}:8001/api/assignTask`,
