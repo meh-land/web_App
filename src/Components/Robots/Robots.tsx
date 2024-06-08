@@ -332,7 +332,7 @@ export default function Robots() {
     axios
       .post(
         `http://${IP}:8001/api/assignTask`,
-        { taskName },
+        { taskname: taskName },
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
