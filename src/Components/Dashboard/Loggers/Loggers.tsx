@@ -21,7 +21,10 @@ const Loggers: FC = () => {
 
           const data = response.data;
 
-          if (data.message !== "No changes detected.") {
+          if (
+            data.message !== "No changes detected." &&
+            !(data.new_line === logLines[0])
+          ) {
             setLogLines((prevLogLines) => [data.new_line, ...prevLogLines]);
             console.log(data.new_line);
           }
@@ -40,7 +43,7 @@ const Loggers: FC = () => {
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
-  }, [DASHBOARD_IP]);
+  }, []);
 
   return (
     <div id="Logs">
