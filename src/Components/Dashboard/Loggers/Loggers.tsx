@@ -39,7 +39,7 @@ const Loggers: FC = () => {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 500);
+    }, 3000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);

@@ -40,7 +40,7 @@ const Status: FC = () => {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 500);
+    }, 2000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
