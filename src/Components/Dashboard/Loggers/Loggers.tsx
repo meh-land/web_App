@@ -1,48 +1,26 @@
-import { FC, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import io from "socket.io-client";
 import Card from "../Card/Card";
-import Context from "../../../Context";
-import axios from "axios";
 import "./Loggers.css";
+import Context from "../../../Context";
 
-const Loggers: FC = () => {
+const Loggers = () => {
   const { DASHBOARD_IP } = useContext(Context);
-  const [logLines, setLogLines] = useState<string[]>([]);
+
+  const [logs, setLogs] = useState<string[]>([]);
+  const socket = io(`http://${DASHBOARD_IP}:5000`);
 
   useEffect(() => {
-    console.log(DASHBOARD_IP);
+    console.log("socket");
+    socket.on("file_changed_logs", (data) => {
+      setLogs((prevLogs) => [data.data, ...prevLogs]);
+      console.log(data.data);
+    });
 
-    const fetchData = () => {
-      axios
-        .get(`http://${DASHBOARD_IP}:8001/api/check-log`)
-        .then((response) => {
-          if (response.status !== 200) {
-            throw new Error(response.statusText);
-          }
-
-          const data = response.data;
-
-          if (
-            data.message !== "No changes detected." &&
-            !(data.new_line === logLines[0])
-          ) {
-            setLogLines((prevLogLines) => [data.new_line, ...prevLogLines]);
-            console.log(data.new_line);
-          }
-        })
-        .catch(function (error) {
-          console.error("Failed to fetch data:", error);
-        });
+    // Cleanup on component unmount
+    return () => {
+      socket.off("file_changed_logs");
     };
-
-    // Fetch data immediately on component mount
-    fetchData();
-
-    const interval = setInterval(() => {
-      fetchData();
-    }, 3000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -51,8 +29,8 @@ const Loggers: FC = () => {
         Title="Logs"
         Content={
           <div className="logsContent">
-            {logLines.length > 0 ? (
-              logLines.map((line, index) => <h5 key={index}>{line}</h5>)
+            {logs.length > 0 ? (
+              logs.map((line, index) => <h5 key={index}>{line}</h5>)
             ) : (
               <h5>No logs available</h5>
             )}
